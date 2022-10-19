@@ -100,5 +100,9 @@ int main()
 	ncNewline();
 
 	ncPrint("[Finished]");
+	
+	fillRect(0,255,255,255,30,30);
+
+	fillRect(400, 255,200,30,30,30);
 	return 0;
 }
