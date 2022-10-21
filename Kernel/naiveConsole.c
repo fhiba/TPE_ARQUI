@@ -1,4 +1,5 @@
 #include <naiveConsole.h>
+#include <font.h>
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
@@ -48,13 +49,25 @@ struct vbe_mode_info_structure{
 
 struct vbe_mode_info_structure * screenInfo = (void *) 0x5C00;   //en sysvar encontramos estos datos cargados
 
-void putpixel(int x,int y, int color) {
-    unsigned where = x*(screenInfo->width) + y*(screenInfo->pitch);
-	unsigned int * screen = screenInfo->framebuffer;
+static void putpixel(unsigned char* screen, int x,int y, int color) {
+    unsigned where = x*screenInfo->bpp/8 + y*screenInfo->pitch;
     screen[where] = color & 255;              // BLUE
     screen[where + 1] = (color >> 8) & 255;   // GREEN
     screen[where + 2] = (color >> 16) & 255;  // RED
 }
+ 
+void drawchar(unsigned char c, int x, int y, int fgcolor, int bgcolor) {
+	int cx,cy;
+	int mask[8]={1,2,4,8,16,32,64,128};
+	unsigned char *glyph=fb_font+(int)c*FONT_SCANLINES;
+	for(cy=0;cy<16;cy++){
+		for(cx=0;cx<8;cx++){
+			putpixel((unsigned char*)screenInfo->framebuffer,x+cx, y+cy, glyph[cy]&mask[cx]?fgcolor:bgcolor);
+		}
+	}
+}
+
+
 
 unsigned int getBpp(){
 	return (screenInfo->bpp)/8;

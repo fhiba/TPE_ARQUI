@@ -3,6 +3,7 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
+#include <idtLoader.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -79,30 +80,39 @@ void * initializeKernelBinary()
 	ncNewline();
 	return getStackBase();
 }
-
 int main()
 {	
-	ncPrint("[Kernel Main]");
-	ncNewline();
-	ncPrint("  Sample code module at 0x");
-	ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	ncNewline();
-	ncPrint("  Calling the sample code module returned: ");
-	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	ncNewline();
-	ncNewline();
+	load_idt();
+	// ncPrint("[Kernel Main]");
+	// ncNewline();
+	// ncPrint("  Sample code module at 0x");
+	// ncPrintHex((uint64_t)sampleCodeModuleAddress);
+	// ncNewline();
+	// ncPrint("  Calling the sample code module returned: ");
+	// ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
+	// ncNewline();
+	// ncNewline();
 
-	ncPrint("  Sample data module at 0x");
-	ncPrintHex((uint64_t)sampleDataModuleAddress);
-	ncNewline();
-	ncPrint("  Sample data module contents: ");
-	ncPrint((char*)sampleDataModuleAddress);
-	ncNewline();
+	// ncPrint("  Sample data module at 0x");
+	// ncPrintHex((uint64_t)sampleDataModuleAddress);
+	// ncNewline();
+	// ncPrint("  Sample data module contents: ");
+	// ncPrint((char*)sampleDataModuleAddress);
+	// ncNewline();
 
-	ncPrint("[Finished]");
+	// ncPrint("[Finished]");
 	
-	fillRect(0,255,255,255,30,30);
+	
+	//fillRect(0,255,255,255,30,30);
 
-	fillRect(400, 255,200,30,30,30);
+	//fillRect(400, 255,200,30,30,30);
+	char s[] = {'l','a',' ','t',' ','y',' ','l','a',' ', 'm'};
+	for (size_t i = 0; i < 11; i++)
+	{
+		drawchar(s[i], i*8, 0, 0xffffff, 0x000000);
+	}
+	
+	
+	drawchar('a', 8, 0, 0xffffff, 0x000000);
 	return 0;
 }
