@@ -106,7 +106,7 @@ int main()
 	//fillRect(0,255,255,255,30,30);
 
 	//fillRect(400, 255,200,30,30,30);
-	char s[] = {'l','a',' ','t',' ','y',' ','l','a',' ', 'm'};
+	char * s = "la t y la m";
 	for (size_t i = 0; i < 11; i++)
 	{
 		drawchar(s[i], i*8, 0, 0xffffff, 0x000000);
@@ -114,5 +114,7 @@ int main()
 	
 	
 	drawchar('a', 8, 0, 0xffffff, 0x000000);
+	sleep(5000);
+	fillRect(300,200,250,30,30,200);
 	return 0;
 }
