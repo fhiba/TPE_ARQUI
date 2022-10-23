@@ -38,51 +38,52 @@ void * initializeKernelBinary()
 {
 	char buffer[10];
 
-	ncPrint("[x64BareBones]");
-	ncNewline();
+	// ncPrint("[x64BareBones]");
+	// ncNewline();
 
-	ncPrint("CPU Vendor:");
-	ncPrint(cpuVendor(buffer));
-	ncNewline();
+	// ncPrint("CPU Vendor:");
+	// ncPrint(cpuVendor(buffer));
+	// ncNewline();
 
-	ncPrint("[Loading modules]");
-	ncNewline();
+	// ncPrint("[Loading modules]");
+	// ncNewline();
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
 		sampleDataModuleAddress
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);
-	ncPrint("[Done]");
-	ncNewline();
-	ncNewline();
+	// ncPrint("[Done]");
+	// ncNewline();
+	// ncNewline();
 
-	ncPrint("[Initializing kernel's binary]");
-	ncNewline();
+	// ncPrint("[Initializing kernel's binary]");
+	// ncNewline();
 
 	clearBSS(&bss, &endOfKernel - &bss);
 
-	ncPrint("  text: 0x");
-	ncPrintHex((uint64_t)&text);
-	ncNewline();
-	ncPrint("  rodata: 0x");
-	ncPrintHex((uint64_t)&rodata);
-	ncNewline();
-	ncPrint("  data: 0x");
-	ncPrintHex((uint64_t)&data);
-	ncNewline();
-	ncPrint("  bss: 0x");
-	ncPrintHex((uint64_t)&bss);
-	ncNewline();
+	// ncPrint("  text: 0x");
+	// ncPrintHex((uint64_t)&text);
+	// ncNewline();
+	// ncPrint("  rodata: 0x");
+	// ncPrintHex((uint64_t)&rodata);
+	// ncNewline();
+	// ncPrint("  data: 0x");
+	// ncPrintHex((uint64_t)&data);
+	// ncNewline();
+	// ncPrint("  bss: 0x");
+	// ncPrintHex((uint64_t)&bss);
+	// ncNewline();
 
-	ncPrint("[Done]");
-	ncNewline();
-	ncNewline();
+	// ncPrint("[Done]");
+	// ncNewline();
+	// ncNewline();
 	return getStackBase();
 }
 int main()
 {	
 	load_idt();
+	startPos();
 	// ncPrint("[Kernel Main]");
 	// ncNewline();
 	// ncPrint("  Sample code module at 0x");
@@ -109,12 +110,20 @@ int main()
 	char * s = "la t y la m";
 	for (size_t i = 0; i < 11; i++)
 	{
-		drawchar(s[i], i*8, 0, 0xffffff, 0x000000);
+		drawChar(s[i], 0xffffff, 0x000000);
 	}
-	
-	
-	drawchar('a', 8, 0, 0xffffff, 0x000000);
+	sleep(1000);
+	drawChar(' ', 0xffffff, 0x000000);
+	drawChar('a', 0xffffff, 0x000000);
+	sleep(3000);
+	char * p = " chupame los dos huevos";
+	for (size_t i = 0; i < 23; i++)
+	{
+		drawChar(p[i], 0xffffff, 0x000000);
+	}
 	sleep(5000);
-	fillRect(300,200,250,30,30,200);
+	// fillRect(300,200,250,30,30,200);
+	sleep(2000);
+	// ncClear();
 	return 0;
 }

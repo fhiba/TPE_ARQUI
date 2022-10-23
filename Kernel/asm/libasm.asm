@@ -40,4 +40,5 @@ getKey:
         in al,0x60          ;en caso de haber input lo cargo en el registro a
 
 .end    mov rsp, rbp
-        pop r
+        pop rbp
+        ret
