@@ -1,6 +1,7 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 #include <stdlib.h>
+#include <stdint.h>
 
 static const uint8_t charHexMap[256] = 
     {       
@@ -9,5 +10,7 @@ static const uint8_t charHexMap[256] =
         'D',  'F',  'G',  'H',  'J',  'K',  'L',  ';',  '\'',    0,    0,  '\\',   'Z',  'X',     'C',       'V',
         'B',  'N',  'M',  ',',  '.',  '/',    0,  '*',     0,  ' ',    0,     0,     0,    0,       0,         0,
     };
+
+unsigned char readKey();
 
 #endif

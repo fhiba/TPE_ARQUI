@@ -3,6 +3,7 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
+#include <keyboard_driver.h>
 #include <idtLoader.h>
 
 extern uint8_t text;
@@ -116,14 +117,19 @@ int main()
 	drawChar(' ', 0xffffff, 0x000000);
 	drawChar('a', 0xffffff, 0x000000);
 	sleep(3000);
-	char * p = " chupame los dos huevos";
-	for (size_t i = 0; i < 23; i++)
-	{
-		drawChar(p[i], 0xffffff, 0x000000);
-	}
-	sleep(5000);
+	// char * p = " chupame los dos huevos";
+	// for (size_t i = 0; i < 23; i++)
+	// {
+	// 	drawChar(p[i], 0xffffff, 0x000000);
+	// }
+	// sleep(5000);
 	// fillRect(300,200,250,30,30,200);
 	sleep(2000);
 	// ncClear();
+	char c;
+	while(1) {
+		if((c = readKey()) != 0)
+			drawChar(c, 0xffffff, 0x000000);
+	}
 	return 0;
 }
