@@ -1,8 +1,46 @@
+#include <syscalls.h>
 #include <naiveConsole.h>
-
+#include <interrupts.h>
 
 void write(int fd, char*buffer, size_t count){
     for(int i =0;i<count;i++){
-        drawChar(buffer[i],0xffffff,0x000000);
+        if(buffer[i] == '\n'){
+            ncNewline();
+        }
+        else{
+            drawChar(buffer[i],0xffffff,0x000000);
+        }
     }
+}
+
+int read(int fd, char * buffer, size_t count){
+    if(fd == 1){
+        int k = 0;
+        unsigned char key = 0;
+        while(key != '\n' && k < count){
+            _hlt();
+            key = readKey();
+            switch(key){
+                case 0:
+                    break;
+                case 8:
+                    if(k > 0){
+                        deleteChar(); //IMPLEMENTAR
+                        k--;
+                    }
+                    break;
+                default:
+                {
+                    drawChar(key,0xffffff,0x000000);
+                    buffer[k++] = key;
+                }
+            }
+        }
+        if(key != '\n'){
+            ncNewline();
+        }
+        buffer[k] = 0;
+        return k;
+    }
+    return -1;
 }

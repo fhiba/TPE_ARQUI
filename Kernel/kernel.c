@@ -86,12 +86,6 @@ int main()
 	load_idt();
 	startPos();
 
-	while(1){
-		char c = readKey();
-		if(c!=0){
-			drawChar(c,0xffffff,0x000000);
-			sleep(50);
-		}
-	}
+	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;
 }

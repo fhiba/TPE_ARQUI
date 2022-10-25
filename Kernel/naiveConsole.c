@@ -67,6 +67,11 @@ unsigned int getBpp(){
 	return (screenInfo->bpp)/8;
 }
 
+void deleteChar(){
+	drawcharAt(' ',currentPos.x-8,currentPos.y,0xffffff,0x000000);
+	currentPos.x -= 8;
+}
+
 void fillRect(unsigned char * vram, unsigned char r, unsigned char g, unsigned char b, unsigned char w, unsigned char h){
 	unsigned char * where = screenInfo->framebuffer + vram;
 	int i, j;

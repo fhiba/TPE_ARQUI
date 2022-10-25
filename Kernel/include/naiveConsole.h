@@ -54,5 +54,6 @@ struct vbe_mode_info_structure{
 } __attribute__ ((packed));
 void startPos();
 void drawChar(unsigned char c, int fgcolor, int bgcolor);
+void deleteChar();
 
 #endif

@@ -12,6 +12,10 @@ int strlen(char * string){
     return i;
 }
 
+void clear(void){
+    sys_clear;
+}
+
 void putchar(char c){
     sys_write(STDIN,&c,1);
 }
@@ -27,6 +31,20 @@ int scanf(char * buffer){
 int strcmp(char*str1,char*str2){
     int pos = 0;
     while(str1[pos]&&str2[pos]){
-        if(str1[pos]!=)
+        if(str1[pos]!=str2[pos])
+            return 0;
+        pos++;
     }
+    if(str1[pos]||str2[pos])
+        return 0;
+    return 1;
+}
+
+int strcpy(char * to, char *from){
+    int i;
+    for(i =0; from[i] != 0; i++){
+        to[i] = from[i];
+    }
+    to[i] = 0;
+    return i;
 }

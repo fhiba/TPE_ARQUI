@@ -1,3 +1,5 @@
+#include <stddef.h>
+
 static int num_syscall;
 
 void setSyscall(int num){
