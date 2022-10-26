@@ -81,15 +81,3 @@ make all
 cd ..
 make clean
 make all
-ls
-cd ~
-ls
-cd Toolchain/
-cd ..
-make clean
-cd Toolchain/
-make clean
-make all
-cd ..
-make all
-exit

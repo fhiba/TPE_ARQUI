@@ -5,7 +5,6 @@
 
 void shell(void){
     char buffer[100];
-    printf("la ty la m");
     while(1){
         printf("$ ");
         int length = scanf(buffer);
@@ -19,6 +18,6 @@ function getProgram(char * buffer){
     if(strcmp(buffer,"date"))
         ret = &help;
     else if(strcmp(buffer,"clear"))
-        ret = &clearProg;
+        ret = &clear;
     return ret;
 }
