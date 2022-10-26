@@ -2,6 +2,9 @@
 #include <naiveConsole.h>
 #include <interrupts.h>
 
+#define STDIN 1
+#define RETVALUE -1
+
 void write(int fd, char*buffer, size_t count){
     for(int i =0;i<count;i++){
         if(buffer[i] == '\n'){
@@ -14,7 +17,8 @@ void write(int fd, char*buffer, size_t count){
 }
 
 int read(int fd, char * buffer, size_t count){
-    if(fd == 1){
+    if(fd == STDIN)
+    {
         int k = 0;
         unsigned char key = 0;
         while(key != '\n' && k < count){
@@ -43,4 +47,8 @@ int read(int fd, char * buffer, size_t count){
         return k;
     }
     return -1;
+}
+
+void clear(){
+    ncClear();
 }

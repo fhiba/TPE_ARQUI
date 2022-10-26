@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <syscalls.h>
 
 static int num_syscall;
 
@@ -13,6 +14,9 @@ int sys_dispatcher(int arg0, int arg1, int arg2){
             break;
         case 2:
             write(arg0,(char*)arg1,(size_t)arg2);
+            break;
+        case 3:
+            clear();
             break;
         default:
             return -1;

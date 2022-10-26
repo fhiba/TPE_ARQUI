@@ -13,7 +13,7 @@ int strlen(char * string){
 }
 
 void clear(void){
-    sys_clear;
+    sys_clear();
 }
 
 void putchar(char c){
@@ -28,7 +28,7 @@ int scanf(char * buffer){
     return sys_read(STDIN,buffer,MAXBUFF);
 }
 
-int strcmp(char*str1,char*str2){
+int strcmp(char*str1,char*str2){ //devuelve 0 si son distintos y 1 si son iguales
     int pos = 0;
     while(str1[pos]&&str2[pos]){
         if(str1[pos]!=str2[pos])

@@ -81,11 +81,16 @@ void * initializeKernelBinary()
 	// ncNewline();
 	return getStackBase();
 }
+
+void loadShell(){
+	((EntryPoint)sampleCodeModuleAddress)();
+}
+
 int main()
 {	
 	load_idt();
 	startPos();
 
-	((EntryPoint)sampleCodeModuleAddress)();
+	loadShell();
 	return 0;
 }

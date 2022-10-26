@@ -54,7 +54,7 @@ void drawcharAt(unsigned char c, int x, int y, int fgcolor, int bgcolor) {
 void drawChar(unsigned char c,int fgcolor, int bgcolor){
 	drawcharAt(c,currentPos.x,currentPos.y,fgcolor,bgcolor);
 	if(currentPos.x < width){
-		currentPos.x+= 10;
+		currentPos.x+= 8;
 	}
 	else if(currentPos.y < height){
 		currentPos.x = 0;
