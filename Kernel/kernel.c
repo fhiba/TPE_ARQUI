@@ -90,6 +90,7 @@ int main()
 {	
 	load_idt();
 	startPos();
+	
 
 	loadShell();
 	return 0;

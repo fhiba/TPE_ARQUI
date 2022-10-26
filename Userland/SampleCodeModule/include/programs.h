@@ -2,5 +2,5 @@
 #define PROGRAMS_H
 
 char help();
-
+char clearProg();
 #endif

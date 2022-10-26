@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <syscalls.h>
+#include <naiveConsole.h>
 
 static int num_syscall;
 

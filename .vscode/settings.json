@@ -1,9 +1,10 @@
 {
-    "files.associations": {
-        "fontloader.h": "c",
-        "stdlib.h": "c",
-        "limits.h": "c",
-        "stdint.h": "c",
-        "naiveconsole.h": "c"
-    }
+  "files.associations": {
+    "fontloader.h": "c",
+    "stdlib.h": "c",
+    "limits.h": "c",
+    "stdint.h": "c",
+    "naiveconsole.h": "c",
+    "syscalls.h": "c"
+  }
 }
