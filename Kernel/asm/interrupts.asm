@@ -64,8 +64,8 @@ SECTION .text
     call exceptionDispatcher
 
     popState
-	
-    ; Piso la direccion de retorno para que vuelva al
+
+    ; Piso la direccion de retorno para que vuelva al shell.
     push rax
     mov rax, 0x00400000
     mov [rsp + 8], rax
