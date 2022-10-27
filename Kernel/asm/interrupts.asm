@@ -57,18 +57,21 @@ SECTION .text
 	pop rax
 %endmacro
 
-%macro irqHandlerMaster 1
-	pushState
+%macro exceptionHandler 1
+    pushState
 
-	mov rdi, %1 ; pasaje de parametro
-	call irqDispatcher
+    mov rdi, %1 ; pasaje de parametro
+    call exceptionDispatcher
 
-	; signal pic EOI (End of Interrupt)
-	mov al, 20h
-	out 20h, al
+    popState
+	
+    ; Piso la direccion de retorno para que vuelva al
+    push rax
+    mov rax, 0x00400000
+    mov [rsp + 8], rax
+    pop rax
 
-	popState
-	iretq
+    iretq
 %endmacro
 
 
