@@ -8,6 +8,7 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 static uint16_t width;
 static uint16_t height;
 static uint8_t bpp;
+static int size;
 
 
 
@@ -31,6 +32,7 @@ void startPos(){
 	width = screenInfo->width;
 	height = screenInfo->height;
 	bpp = screenInfo->bpp;
+	size = 3;
 }
 
 static void putpixel(unsigned char* screen, int x,int y, int color) {
@@ -42,23 +44,27 @@ static void putpixel(unsigned char* screen, int x,int y, int color) {
  
 void drawcharAt(unsigned char c, int x, int y, int fgcolor, int bgcolor) {
 	int cx,cy;
-	int mask[8]={1,2,4,8,16,32,64,128};
+	int mask[8] = {1, 2, 4, 8, 16, 32, 64, 128};
 	unsigned char *glyph=fb_font+(int)c*FONT_SCANLINES;
 	for(cx=0;cx<8;cx++){
 		for(cy=0;cy<16;cy++){
-			putpixel((unsigned char*)currentVideo,x+cx, y+cy, glyph[cy]&mask[7-cx]?fgcolor:bgcolor);
+			putpixel((unsigned char*)currentVideo,x+cx*size, y+cy*size, glyph[cy]&mask[7-cx]?fgcolor:bgcolor);
 		}
 	}
+}
+
+void setSize(int num){
+	size = num;
 }
 
 void drawChar(unsigned char c,int fgcolor, int bgcolor){
 	drawcharAt(c,currentPos.x,currentPos.y,fgcolor,bgcolor);
 	if(currentPos.x < width){
-		currentPos.x+= 10;
+		currentPos.x+= 8*size;
 	}
 	else if(currentPos.y < height){
 		currentPos.x = 0;
-		currentPos.y+=16;
+		currentPos.y+=16*size;
 	}
 	//generar funcion que mueva toto un renglon hacia arriba porque llegamos al final de la terminal.
 }

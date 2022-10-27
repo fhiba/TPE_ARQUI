@@ -4,6 +4,9 @@
         "stdlib.h": "c",
         "limits.h": "c",
         "stdint.h": "c",
-        "naiveconsole.h": "c"
+        "naiveconsole.h": "c",
+        "syscalls.h": "c",
+        "cstdio": "c",
+        "mylib.h": "c"
     }
 }
