@@ -5,6 +5,7 @@
 #include <naiveConsole.h>
 #include <keyboard_driver.h>
 #include <idtLoader.h>
+#include <syscalls.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -81,16 +82,10 @@ void * initializeKernelBinary()
 	// ncNewline();
 	return getStackBase();
 }
-
-void loadShell(){
-	((EntryPoint)sampleCodeModuleAddress)();
-}
-
 int main()
 {	
 	load_idt();
 	startPos();
-
-	loadShell();
+	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;
 }
