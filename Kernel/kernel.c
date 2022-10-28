@@ -5,6 +5,7 @@
 #include <naiveConsole.h>
 #include <keyboard_driver.h>
 #include <idtLoader.h>
+#include <syscalls.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -85,51 +86,6 @@ int main()
 {	
 	load_idt();
 	startPos();
-	// ncPrint("[Kernel Main]");
-	// ncNewline();
-	// ncPrint("  Sample code module at 0x");
-	// ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	// ncNewline();
-	// ncPrint("  Calling the sample code module returned: ");
-	// ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	// ncNewline();
-	// ncNewline();
-
-	// ncPrint("  Sample data module at 0x");
-	// ncPrintHex((uint64_t)sampleDataModuleAddress);
-	// ncNewline();
-	// ncPrint("  Sample data module contents: ");
-	// ncPrint((char*)sampleDataModuleAddress);
-	// ncNewline();
-
-	// ncPrint("[Finished]");
-	
-	
-	//fillRect(0,255,255,255,30,30);
-
-	//fillRect(400, 255,200,30,30,30);
-	char * s = "la t y la m";
-	for (size_t i = 0; i < 11; i++)
-	{
-		drawChar(s[i], 0xffffff, 0x000000);
-	}
-	sleep(1000);
-	drawChar(' ', 0xffffff, 0x000000);
-	drawChar('a', 0xffffff, 0x000000);
-	sleep(3000);
-	// char * p = " chupame los dos huevos";
-	// for (size_t i = 0; i < 23; i++)
-	// {
-	// 	drawChar(p[i], 0xffffff, 0x000000);
-	// }
-	// sleep(5000);
-	// fillRect(300,200,250,30,30,200);
-	sleep(2000);
-	// ncClear();
-	char c;
-	while(1) {
-		if((c = readKey()) != 0)
-			drawChar(c, 0xffffff, 0x000000);
-	}
+	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;
 }

@@ -15,14 +15,23 @@ GLOBAL _irq05Handler
 
 GLOBAL _exception0Handler
 GLOBAL _exception6Handler
+GLOBAL _syscallHandler
+; GLOBAL printAllRegs
 
+; EXTERN getStackBase
+EXTERN set_syscall
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
+EXTERN sys_dispatcher
+; EXTERN saveBackup
+; EXTERN ncPrintReg
+; EXTERN rebootTerm
+
+; EXTERN printRegPtr	;Este puntero a funcion debe ser desreferenciado para poder ser llamado
 
 SECTION .text
 
-%macro pushState 0
-	push rax
+%macro pushStateWithoutRax 0
 	push rbx
 	push rcx
 	push rdx
@@ -39,7 +48,12 @@ SECTION .text
 	push r15
 %endmacro
 
-%macro popState 0
+%macro pushState 0
+	push rax
+	pushStateWithoutRax
+%endmacro
+
+%macro popStateWithoutRax 0
 	pop r15
 	pop r14
 	pop r13
@@ -54,11 +68,18 @@ SECTION .text
 	pop rdx
 	pop rcx
 	pop rbx
+%endmacro
+
+%macro popState 0
+	popStateWithoutRax
 	pop rax
 %endmacro
 
 %macro irqHandlerMaster 1
 	pushState
+	cli
+
+	; call saveBackup
 
 	mov rdi, %1 ; pasaje de parametro
 	call irqDispatcher
@@ -68,10 +89,9 @@ SECTION .text
 	out 20h, al
 
 	popState
+	sti
 	iretq
 %endmacro
-
-
 
 %macro exceptionHandler 1
 	pushState
@@ -80,9 +100,63 @@ SECTION .text
 	call exceptionDispatcher
 
 	popState
+
+	; call printAllRegs
+
+	; mov rax, [rsp+24];
+	; printReg rax, 16
+
+	; pop rax ;rip esta "arriba"  en el stack
+	; printReg rax, 14
+
+	; call rebootTerm
+
+	; mov rax,400000h; muevo el nuevo rip al principio de la shell
+	; push rax
+	; call getStackBase
+	; mov qword [rsp+24],rax
 	iretq
 %endmacro
 
+
+%macro syscallHandlerMaster 0
+	pushStateWithoutRax
+	push rdi
+	mov rdi,rax
+	call set_syscall
+	pop rdi
+
+	call sys_dispatcher
+
+	popStateWithoutRax
+	iretq
+%endmacro
+
+; %macro printReg 2
+; 	mov rsi, %1
+; 	lea rdi, [regsNames + 4 * %2]
+; 	call [printRegPtr]			;Desreferencio el puntero a funcion
+; %endmacro
+
+; printAllRegs: 			;Imprime los registros de la instancia en la cual se lo llamó
+; 	push rdi
+; 	printReg rsi, 1
+; 	pop rdi
+; 	printReg rdi, 0
+; 	printReg rax, 2
+; 	printReg rbx, 3
+; 	printReg rcx, 4
+; 	printReg rdx, 5
+; 	printReg r8, 6
+; 	printReg r9, 7
+; 	printReg r10, 8
+; 	printReg r11, 9
+; 	printReg r12, 10
+; 	printReg r13, 11
+; 	printReg r14, 12
+; 	printReg r15, 13
+; 	printReg rbp, 16
+; 	ret
 
 _hlt:
 	sti
@@ -144,16 +218,22 @@ _irq05Handler:
 _exception0Handler:
 	exceptionHandler 0
 
-;Invalid OpCode Exception
+;Opcode Exception
 _exception6Handler:
 	exceptionHandler 6
+
+;Software Interruption
+_syscallHandler:
+	syscallHandlerMaster
 
 haltcpu:
 	cli
 	hlt
 	ret
 
-
+section .rodata
+	; dd = 4 byte value. Hacemos un "array" donde cada posicion es de 4 bytes (cada caracter ocupa 1 byte, de esta forma todos terminan en 0)
+	regsNames dd "rdi", "rsi", "rax", "rbx", "rcx", "rdx", "r8 ", "r9 ", "r10", "r11", "r12", "r13", "r14", "r15", "rip", "rsp", "rbp" ; 17 registros
 
 SECTION .bss
 	aux resq 1

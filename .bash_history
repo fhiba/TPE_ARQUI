@@ -81,3 +81,29 @@ make all
 cd ..
 make clean
 make all
+cd ~
+make clean
+ls
+cd Kernel/
+ls
+cd ..
+make clean
+make clean
+make clean
+make clean
+make clean
+make clean
+make clean
+make clean
+cd Toolchain/
+make clean
+make all
+cd ..
+make all
+make clean
+make all
+make all
+make all
+make all
+make all
+exit
