@@ -2,4 +2,5 @@
 #define SYSCALL_H_
 #include <stddef.h>
 void write(int fd, char* buffer, size_t count);
+int read(int fd, char * buffer, size_t count);
 #endif

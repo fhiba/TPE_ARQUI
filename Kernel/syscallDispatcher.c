@@ -3,7 +3,7 @@
 
 static int num_syscall;
 
-void setSyscall(int num){
+void set_syscall(int num){
     num_syscall = num;
 }
 

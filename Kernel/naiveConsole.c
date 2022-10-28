@@ -121,6 +121,8 @@ void ncNewline()
 	for(int i = currentPos.x; i<width;i++){
 			putpixel((unsigned char*)currentVideo,i,currentPos.y,0x000000);
 	}
+	currentPos.x = 0;
+	currentPos.y += 16;
 }
 
 

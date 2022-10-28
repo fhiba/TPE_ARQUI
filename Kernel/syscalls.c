@@ -33,6 +33,8 @@ int read(int fd, char * buffer, size_t count){
                         k--;
                     }
                     break;
+                case '\n':
+                    break;
                 default:
                 {
                     drawChar(key,0xffffff,0x000000);
@@ -40,7 +42,7 @@ int read(int fd, char * buffer, size_t count){
                 }
             }
         }
-        if(key != '\n'){
+        if(key == '\n'){
             ncNewline();
         }
         buffer[k] = 0;
