@@ -140,7 +140,9 @@ void ncClear()
 		for(j = 0; j < height;j++){
 			putpixel((unsigned char*)currentVideo,i,j,0x000000);
 		}
-	} //ahora cuando termine esta llamada vemos que hacemos
+	}
+	currentPos.x = 0;
+	currentPos.y = 0;
 }
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)

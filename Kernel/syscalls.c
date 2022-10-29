@@ -27,7 +27,7 @@ int read(int fd, char * buffer, size_t count){
             switch(key){
                 case 0:
                     break;
-                case 8:
+                case 0xF0:
                     if(k > 0){
                         deleteChar(); //IMPLEMENTAR
                         k--;

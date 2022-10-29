@@ -2,12 +2,9 @@
 #define SHELL_H
 
 #include <programs.h>
-
-typedef char (*function)(void);
-
-
+#include <ourlib.h>
 
 void shell(void);
-function getProgram(char * name);
+void getProgram(char * name);
 
 #endif

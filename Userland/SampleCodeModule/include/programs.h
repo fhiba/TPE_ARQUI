@@ -1,6 +1,7 @@
 #ifndef PROGRAMS_H
 #define PROGRAMS_H
 
-char help();
+void help();
+void clearProg();
 
 #endif

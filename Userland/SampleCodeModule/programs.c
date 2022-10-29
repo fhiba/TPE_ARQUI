@@ -1,12 +1,14 @@
 #include <programs.h>
 #include <ourlib.h>
 
-char help(){
-    printf("Available Commands: \n-date\n-inforeg\n-help");
-    return 0;
+void help(){
+    printf("Available Commands: \n-date\n-clear\n-help\n");
 }
 
-char clearProg(){
+void clearProg(){
     clear();
-    return 0;
 }
+
+// void infoRegs(){
+//     sys_infoRegs();
+// }

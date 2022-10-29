@@ -18,6 +18,8 @@ int sys_dispatcher(int arg0, int arg1, int arg2){
         case 3:
             clear();
             break;
+        case 5:
+            //hacer infoRegs()
         default:
             return -1;
     }

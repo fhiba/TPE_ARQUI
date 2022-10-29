@@ -9,6 +9,7 @@
     "syscall.h": "c",
     "syscalls.h": "c",
     "syscallslib.h": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "shell.h": "c"
   }
 }

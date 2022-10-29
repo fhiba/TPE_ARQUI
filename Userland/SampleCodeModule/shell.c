@@ -1,4 +1,3 @@
-#include <ourlib.h>
 #include <programs.h>
 #include <shell.h>
 
@@ -13,11 +12,11 @@ void shell(void){
     }
 }
 
-function getProgram(char * buffer){
-    function ret;
-    if(strcmp(buffer,"date"))
-        ret = &help;
-    else if(strcmp(buffer,"clear"))
-        ret = &clear;
-    return ret;
+void getProgram(char * buffer){
+    if(strcmp(buffer,"HELP"))
+        help();
+    else if(strcmp(buffer,"CLEAR"))
+        clearProg();
+    else
+        printf("Invalid Command\n");
 }
