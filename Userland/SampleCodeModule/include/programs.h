@@ -7,5 +7,7 @@ void resize();
 void exitShell();
 void date();
 char getDateValues(int value);
+void tron();
+void test();
 
 #endif

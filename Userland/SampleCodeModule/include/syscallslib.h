@@ -14,5 +14,6 @@ void sys_setScreen(int mode);
 void sys_inforeg(registersT *regs);
 void sys_snapshotRegs(void);
 void sys_resize(int num);
+void sys_tron();
 
 #endif

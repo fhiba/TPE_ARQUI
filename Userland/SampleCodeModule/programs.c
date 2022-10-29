@@ -24,7 +24,14 @@ void exitShell(){
 
 
 char getDateValues(int value){
-    sys_date(value);
+    return sys_date(value);
+}
+
+void test(){
+    for(int i = 0; i < 6200 ; i++){
+        printf("a");
+        sys_sleep(20);
+    }
 }
 
 void date(){
@@ -41,7 +48,9 @@ void date(){
 
 void tron(){
     clear();
-    printf("Welcome to tron!");
+    printf("Welcome to tron!\n The game will start soon! \nPlayer 1 moves with WASD and is color blue\nPlayer 2 moves with the arrow keys and is color red\nGOOD LUCK, HAVE FUN!\n");
+    sys_sleep(2500);
+    sys_tron();
 }
 // void infoRegs(){
 //     sys_infoRegs();
