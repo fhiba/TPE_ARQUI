@@ -7,13 +7,6 @@ unsigned char last;
 
 unsigned char readKey() {
     unsigned char aux = key;
-    // if(flag == 0)
-    //     return 0;
-    // if(key == 0)
-    //     aux = last;
-    // else
-    //     key = 0;
-    // flag = 0;
     key = 0;
     return aux;
 }

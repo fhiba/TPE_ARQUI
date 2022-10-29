@@ -8,6 +8,7 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 static uint16_t width;
 static uint16_t height;
 static uint8_t bpp;
+static uint16_t size;
 
 
 
@@ -31,6 +32,7 @@ void startPos(){
 	width = screenInfo->width;
 	height = screenInfo->height;
 	bpp = screenInfo->bpp;
+	size = 1;
 }
 
 static void putpixel(unsigned char* screen, int x,int y, int color) {
@@ -44,32 +46,52 @@ void drawcharAt(unsigned char c, int x, int y, int fgcolor, int bgcolor) {
 	int cx,cy;
 	int mask[8]={1,2,4,8,16,32,64,128};
 	unsigned char *glyph=fb_font+(int)c*FONT_SCANLINES;
-	for(cx=0;cx<8;cx++){
-		for(cy=0;cy<16;cy++){
-			putpixel((unsigned char*)currentVideo,x+cx, y+cy, glyph[cy]&mask[7-cx]?fgcolor:bgcolor);
+	for(cx=0;cx<8*size;cx++){
+		for(cy=0;cy<16*size;cy++){
+			putpixel((unsigned char*)currentVideo,x+cx*size, y+cy*size, glyph[cy]&mask[7-cx]?fgcolor:bgcolor);
 		}
 	}
 }
 
 void drawChar(unsigned char c,int fgcolor, int bgcolor){
 	drawcharAt(c,currentPos.x,currentPos.y,fgcolor,bgcolor);
-	if(currentPos.x < width){
-		currentPos.x+= 8;
+	if(currentPos.x < width*size){
+		currentPos.x+= 8*size;
 	}
-	else if(currentPos.y < height){
+	else if(currentPos.y < height*size){
 		currentPos.x = 0;
-		currentPos.y+=16;
+		currentPos.y+=16*size;
 	}
-	//generar funcion que mueva toto un renglon hacia arriba porque llegamos al final de la terminal.
+	else
+		moveUp();
+}
+
+void moveUp(){
+	unsigned where, current;
+	for (int i = 0; i < height; i++)
+	{
+		for(int j = 0; j<width;j++){
+			current = j*screenInfo->bpp/8 + i*screenInfo->pitch;
+			where = j*screenInfo->bpp/8 + (i+16)*screenInfo->pitch;
+			currentVideo[current] = currentVideo[where];
+			currentVideo[current+1] = currentVideo[where+1] >> 8;
+			currentVideo[current+2] = currentVideo[where+2] >> 16;
+		}
+	}
+	currentPos.x = 0;
 }
 
 unsigned int getBpp(){
 	return (screenInfo->bpp)/8;
 }
 
+void nResize(int num){
+	size = num;
+}
+
 void deleteChar(){
-	drawcharAt(' ',currentPos.x-8,currentPos.y,0xffffff,0x000000);
-	currentPos.x -= 8;
+	drawcharAt(' ',currentPos.x-8*size,currentPos.y,0xffffff,0x000000);
+	currentPos.x -= 8*size;
 }
 
 void fillRect(unsigned char * vram, unsigned char r, unsigned char g, unsigned char b, unsigned char w, unsigned char h){

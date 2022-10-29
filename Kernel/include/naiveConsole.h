@@ -4,6 +4,15 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#define BLANCO 0xffffff
+#define NEGRO 0x000000
+#define ROJO 0xff0000
+#define VERDE 0x00ff00
+#define AZUL 0x0000ff
+#define CELESTE 0x00ffff
+#define AMARILLO 0xffff00
+#define VIOLETA 0xff00ff
+
 void ncPrint(const char * string);
 void ncPrintChar(char character);
 void ncNewline();
@@ -54,5 +63,6 @@ struct vbe_mode_info_structure{
 } __attribute__ ((packed));
 void startPos();
 void drawChar(unsigned char c, int fgcolor, int bgcolor);
+void nResize(int num);
 
 #endif

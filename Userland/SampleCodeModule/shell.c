@@ -15,8 +15,16 @@ void shell(void){
 void getProgram(char * buffer){
     if(strcmp(buffer,"HELP"))
         help();
+    else if(strcmp(buffer,"DATE"))
+        date();
     else if(strcmp(buffer,"CLEAR"))
         clearProg();
+    else if(strcmp(buffer,"RESIZE"))
+        resize();
+    else if(strcmp(buffer,"EXIT"))
+        exitShell();
+    else if(strcmp(buffer,"TRON"))
+        tron();
     else
         printf("Invalid Command\n");
 }

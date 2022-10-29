@@ -1,6 +1,7 @@
 #include <syscalls.h>
 #include <naiveConsole.h>
 #include <interrupts.h>
+#include <lib.h>
 
 #define STDIN 1
 #define RETVALUE -1
@@ -11,7 +12,7 @@ void write(int fd, char*buffer, size_t count){
             ncNewline();
         }
         else{
-            drawChar(buffer[i],0xffffff,0x000000);
+            drawChar(buffer[i],BLANCO,NEGRO);
         }
     }
 }
@@ -53,4 +54,12 @@ int read(int fd, char * buffer, size_t count){
 
 void clear(){
     ncClear();
+}
+
+void resize(int num){
+    nResize(num);
+}
+
+void mydate(char value){
+    rtcGet(value);
 }

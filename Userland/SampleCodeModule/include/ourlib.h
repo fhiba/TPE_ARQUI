@@ -27,5 +27,6 @@ void printf(char * string);
 void putchar(char c);
 int strlen(char * string);
 void clear(void);
+int atoi(char * str);
 
 #endif

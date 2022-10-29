@@ -3,5 +3,9 @@
 
 void help();
 void clearProg();
+void resize();
+void exitShell();
+void date();
+char getDateValues(int value);
 
 #endif

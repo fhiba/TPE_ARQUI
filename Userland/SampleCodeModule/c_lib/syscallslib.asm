@@ -8,6 +8,7 @@ GLOBAl sys_setScreen
 GLOBAL sys_inforeg
 GLOBAL sys_getLast
 GLOBAL sys_snapshotRegs
+GLOBAL sys_resize
 GLOBAL divzero
 GLOBAL opcode
 
@@ -53,6 +54,11 @@ sys_inforeg:
 
 sys_snapshotRegs:
     mov rax, 12
+    int 80h
+    ret
+
+sys_resize:
+    mov rax,9
     int 80h
     ret
 
