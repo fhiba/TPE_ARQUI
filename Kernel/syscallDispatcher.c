@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include <syscalls.h>
 #include <tron.h>
+#include "./include/time.h"
 
 static int num_syscall;
 
@@ -19,13 +20,15 @@ int sys_dispatcher(int arg0, int arg1, int arg2){
         case 3:
             clear();
             break;
+        case 7:
+            tsleep((long)arg0);
         case 6:
             mydate(arg0);
             break;
         case 9:
             resize(arg0);
             break;
-        case 10:
+        case 13:
             tronRun();
             break;
         default:

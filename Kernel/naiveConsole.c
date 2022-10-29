@@ -56,19 +56,22 @@ void drawcharAt(unsigned char c, int x, int y, int fgcolor, int bgcolor) {
 	int cx,cy;
 	int mask[8]={1,2,4,8,16,32,64,128};
 	unsigned char *glyph=fb_font+(int)c*FONT_SCANLINES;
-	for(cx=0;cx<8*size;cx++){
-		for(cy=0;cy<16*size;cy++){
+	for(cx=0;cx<8;cx++){
+		for(cy=0;cy<16;cy++){
 			putpixel((unsigned char*)currentVideo,x+cx*size, y+cy*size, glyph[cy]&mask[7-cx]?fgcolor:bgcolor);
 		}
 	}
 }
 
 void drawChar(unsigned char c,int fgcolor, int bgcolor){
+	if(currentPos.x + 8*size > width-8*size){
+		ncNewline();
+	}
 	drawcharAt(c,currentPos.x,currentPos.y,fgcolor,bgcolor);
-	if(currentPos.x < width*size-8*size){
+	if(currentPos.x < width-8*size){
 		currentPos.x+= 8*size;
 	}
-	else if(currentPos.y < height*size - 16*size){
+	else if(currentPos.y < height-16*size){
 		currentPos.x = 0;
 		currentPos.y+=16*size;
 	}
@@ -160,7 +163,7 @@ void ncNewline()
 			putpixel((unsigned char*)currentVideo,i,currentPos.y,0x000000);
 	}
 	currentPos.x = 0;
-	currentPos.y += 16;
+	currentPos.y += 16*size;
 }
 
 

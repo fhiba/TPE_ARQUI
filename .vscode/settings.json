@@ -12,6 +12,7 @@
     "string.h": "c",
     "shell.h": "c",
     "programs.h": "c",
-    "keyboard_driver.h": "c"
+    "keyboard_driver.h": "c",
+    "time.h": "c"
   }
 }

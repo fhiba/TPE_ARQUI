@@ -64,7 +64,7 @@ sys_resize:
     ret
 
 sys_tron:
-    mov rax,10
+    mov rax,13
     int 80h
     ret
 

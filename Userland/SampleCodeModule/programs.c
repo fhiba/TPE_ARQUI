@@ -48,7 +48,7 @@ void date(){
 
 void tron(){
     clear();
-    printf("Welcome to tron!\n The game will start soon! \nPlayer 1 moves with WASD and is color blue\nPlayer 2 moves with the arrow keys and is color red\nGOOD LUCK, HAVE FUN!\n");
+    printf("Welcome to tron!\n The game will start soon! \nPlayer 1 moves with WASD and is color blue\nPlayer 2 moves with IJKL and is color red\nGOOD LUCK, HAVE FUN!\n");
     sys_sleep(2500);
     sys_tron();
 }
