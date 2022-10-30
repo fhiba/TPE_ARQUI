@@ -11,7 +11,7 @@ void sys_clear();
 char sys_date(char value);
 void sys_sleep(int secs);
 void sys_setScreen(int mode);
-void sys_inforeg(registersT *regs);
+void sys_infoRegs();
 void sys_snapshotRegs(void);
 void sys_resize(int num);
 

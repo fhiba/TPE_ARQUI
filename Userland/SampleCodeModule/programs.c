@@ -43,6 +43,6 @@ void tron(){
     clear();
     printf("Welcome to tron!");
 }
-// void infoRegs(){
-//     sys_infoRegs();
-// }
+void infoRegs(){
+    sys_infoRegs();
+}

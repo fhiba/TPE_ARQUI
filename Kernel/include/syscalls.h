@@ -5,5 +5,7 @@
 
 void write(int fd, char* buffer, size_t count);
 int read(int fd, char * buffer, size_t count);
+void inforegs();
+void takeSnapshot();
 int64_t date(char value);
 #endif

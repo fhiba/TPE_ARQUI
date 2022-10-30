@@ -7,5 +7,5 @@ void resize();
 void exitShell();
 void date();
 char getDateValues(int value);
-
+void infoRegs();
 #endif
