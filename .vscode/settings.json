@@ -13,6 +13,7 @@
     "shell.h": "c",
     "programs.h": "c",
     "keyboard_driver.h": "c",
-    "time.h": "c"
+    "time.h": "c",
+    "ourlib.h": "c"
   }
 }

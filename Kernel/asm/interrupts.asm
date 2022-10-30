@@ -94,28 +94,18 @@ SECTION .text
 %endmacro
 
 %macro exceptionHandler 1
-	pushState
+    pushState
+    mov rdi, %1 ; pasaje de parametro
+    call exceptionDispatcher
 
-	mov rdi, %1 ; pasaje de parametro
-	call exceptionDispatcher
+    popState
 
-	popState
-
-	; call printAllRegs
-
-	; mov rax, [rsp+24];
-	; printReg rax, 16
-
-	; pop rax ;rip esta "arriba"  en el stack
-	; printReg rax, 14
-
-	; call rebootTerm
-
-	; mov rax,400000h; muevo el nuevo rip al principio de la shell
-	; push rax
-	; call getStackBase
-	; mov qword [rsp+24],rax
-	iretq
+    ; Piso la direccion de retorno para que vuelva al shell.
+    push rax
+    mov rax, 0x00400000
+    mov [rsp + 8], rax
+    pop rax
+    iretq
 %endmacro
 
 

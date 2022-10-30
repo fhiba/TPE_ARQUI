@@ -8,6 +8,8 @@ void exitShell();
 void date();
 char getDateValues(int value);
 void infoRegs();
+void div_zero();
+void opcodetest();
 void tron();
 void test();
 

@@ -10,6 +10,7 @@ GLOBAL sys_getLast
 GLOBAL sys_snapshotRegs
 GLOBAL sys_resize
 GLOBAL divzero
+GLOBAL opcodetest
 GLOBAL opcode
 GLOBAL sys_tron
 
@@ -72,6 +73,14 @@ divzero:
     mov rax, 4
     xor rbx, rbx
     div rbx
+    ret
+
+opcodetest:
+    push rbp
+    mov rbp, rsp
+    mov cr6, rax
+    mov rsp, rbp
+    pop rbp
     ret
 
 opcode:

@@ -1,4 +1,5 @@
 #include <programs.h>
+#include <syscallslib.h>
 #include <shell.h>
 
 
@@ -27,6 +28,10 @@ void getProgram(char * buffer){
         tron();
     else if(strcmp(buffer,"INFOREG"))
         infoRegs();
+    else if(strcmp(buffer, "DIVZERO"))
+        div_zero();
+    else if(strcmp(buffer, "OPCODE"))
+        opcodetest();
     else if(strcmp(buffer,"TEST"))
         test();
     else
