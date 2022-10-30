@@ -86,12 +86,12 @@ static const char* registerNames[17] = {
 static const uint64_t regsiterValues[17] = {0};
 void inforegs(){
     if(!snapshot){
-        write(0,"Primero debe tomar un snapshot con la tecla =",46);
+        write(2,"Primero debe tomar un snapshot con la tecla =",46);
         ncNewline();
     }else{
         for(int i = 0;i<17;i++){
-            write(0,registerNames[i],3);
-            write(0,": ",2);
+            write(3,registerNames[i],3);
+            write(1,": ",2);
             ncPrintBase(regsiterValues[i],16);
             ncNewline();
         }
@@ -101,8 +101,8 @@ void inforegs(){
 void takeSnapshot(){
     saveRegisters(regsiterValues);
     ncNewline();
-    write(0,"Snapshot tomado.",17);
+    write(1,"Snapshot tomado.",17);
     ncNewline();
-    write(0,"$",1);
+    write(3,"$",1);
     snapshot = 1;
 }
