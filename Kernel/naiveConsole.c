@@ -64,35 +64,54 @@ void drawcharAt(unsigned char c, int x, int y, int fgcolor, int bgcolor) {
 }
 
 void drawChar(unsigned char c,int fgcolor, int bgcolor){
-	if(currentPos.x + 8*size > width-8*size){
-		ncNewline();
-	}
-	drawcharAt(c,currentPos.x,currentPos.y,fgcolor,bgcolor);
-	if(currentPos.x < width-8*size){
+
+
+	//primero tenes que fijarte si entra el caracter en la pantalla
+		// primero si entra en el renglon
+
+	if ( currentPos.x + 8 * size <= width && currentPos.y + 16 * size <= height) {
+		drawcharAt ( c, currentPos.x, currentPos.y, fgcolor, bgcolor );
 		currentPos.x+= 8*size;
-	}
-	else if(currentPos.y < height-16*size){
+	} else if (currentPos.y + 16 * size <= height) {
+		currentPos.y+= 16*size;
 		currentPos.x = 0;
-		currentPos.y+=16*size;
-	}
-	else
+		drawcharAt ( c, currentPos.x, currentPos.y, fgcolor, bgcolor );
+	} else {
 		moveUp();
+		drawcharAt ( c, currentPos.x, currentPos.y, fgcolor, bgcolor );
+	}
+
+	// if(currentPos.x + 8*size > width-8*size){
+	// 	ncNewline();
+	// }
+	// drawcharAt(c,currentPos.x,currentPos.y,fgcolor,bgcolor);
+	// if(currentPos.x < width-8*size){
+	// 	currentPos.x+= 8*size;
+	// }
+	// else if(currentPos.y < height-16*size){
+	// 	currentPos.x = 0;
+	// 	currentPos.y+=16*size;
+	// }
+	// else
+	// 	moveUp();
 }
 
 void moveUp(){
 	unsigned where, current;
+
+
 	for (int i = 0; i < height; i++)
 	{
 		for(int j = 0; j<width;j++){
 			if(i < height - 16*size){
 				current = j*screenInfo->bpp/8 + i*screenInfo->pitch;
-				where = j*screenInfo->bpp/8 + (i+16)*screenInfo->pitch;
+				where = j*screenInfo->bpp/8 + (i+16 * size)*screenInfo->pitch;
 				currentVideo[current] = currentVideo[where];
-				currentVideo[current+1] = currentVideo[where+1] >> 8;
-				currentVideo[current+2] = currentVideo[where+2] >> 16;
+				currentVideo[current+1] = currentVideo[where+1];
+				currentVideo[current+2] = currentVideo[where+2];
 			}
 			else{
-				drawChar(' ',BLANCO,NEGRO);
+				putpixel((unsigned char*)currentVideo, j, i, NEGRO);
 			}
 		}
 	}
@@ -109,8 +128,15 @@ void nResize(int num){
 }
 
 void deleteChar(){
-	drawcharAt(' ',currentPos.x-8*size,currentPos.y,0xffffff,0x000000);
-	currentPos.x -= 8*size;
+	
+	if(currentPos.x - 8*size < 0) {
+		currentPos.y -= 16*size;
+		currentPos.x = width - 8 * size;
+		
+	} else {
+		currentPos.x -= 8*size;
+	}
+	drawcharAt(' ',currentPos.x,currentPos.y,0xffffff,0x000000);
 }
 
 void fillRect(unsigned char * vram, int color, unsigned char w, unsigned char h){
@@ -162,8 +188,13 @@ void ncNewline()
 	for(int i = currentPos.x; i<width;i++){
 			putpixel((unsigned char*)currentVideo,i,currentPos.y,0x000000);
 	}
-	currentPos.x = 0;
-	currentPos.y += 16*size;
+	if(currentPos.y + 16* size > height){
+		moveUp();
+	} else {
+
+		currentPos.x = 0;
+		currentPos.y += 16*size;
+	}
 }
 
 

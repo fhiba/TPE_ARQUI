@@ -107,3 +107,27 @@ make all
 make all
 make all
 exit
+cd root/
+cd Toolchain/
+make clean
+make all
+cd ..
+make clean
+make all
+make clean
+make all
+make clean
+make all
+exi
+exit
+cd root/
+cd Toolchain/
+make clean && make all
+cd ..
+make all
+gdb
+gdb
+clear
+make all
+gdb
+exit
