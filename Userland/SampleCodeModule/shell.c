@@ -29,9 +29,9 @@ void getProgram(char * buffer){
     else if(strcmp(buffer,"INFOREG"))
         infoRegs();
     else if(strcmp(buffer, "DIVZERO"))
-        div_zero();
+        sys_divzero();
     else if(strcmp(buffer, "OPCODE"))
-        opcodetest();
+        sys_opcode();
     else if(strcmp(buffer,"TEST"))
         test();
     else

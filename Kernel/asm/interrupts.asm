@@ -16,6 +16,8 @@ GLOBAL _irq05Handler
 GLOBAL _exception0Handler
 GLOBAL _exception6Handler
 GLOBAL _syscallHandler
+GLOBAL divzero
+GLOBAL opcode
 ; GLOBAL printAllRegs
 
 ; EXTERN getStackBase
@@ -23,6 +25,8 @@ EXTERN set_syscall
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN sys_dispatcher
+EXTERN takeSnapshot
+EXTERN inforegs
 ; EXTERN saveBackup
 ; EXTERN ncPrintReg
 ; EXTERN rebootTerm
@@ -216,6 +220,19 @@ _exception6Handler:
 _syscallHandler:
 	syscallHandlerMaster
 
+divzero:
+    mov rax, 4
+    xor rbx, rbx
+    div rbx
+	call takeSnapshot
+	call inforegs
+    ret
+
+opcode:
+    ud2
+	call takeSnapshot
+	call inforegs
+    ret
 haltcpu:
 	cli
 	hlt
@@ -227,3 +244,4 @@ section .rodata
 
 SECTION .bss
 	aux resq 1
+	registerArray resq 17

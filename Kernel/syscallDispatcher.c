@@ -4,6 +4,8 @@
 #include "./include/time.h"
 
 static int num_syscall;
+extern void divzero();
+extern void opcode();
 
 void set_syscall(int num){
     num_syscall = num;
@@ -38,6 +40,10 @@ int sys_dispatcher(int arg0, int arg1, int arg2){
         case 13:
             tronRun();
             break;
+        case 14:
+            divzero();
+        case 15:
+            opcode();
         default:
             return -1;
     }

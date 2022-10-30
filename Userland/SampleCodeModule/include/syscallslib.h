@@ -12,9 +12,10 @@ char sys_date(char value);
 void sys_sleep(int secs);
 void sys_setScreen(int mode);
 void sys_infoRegs();
-void opcodetest();
 void sys_snapshotRegs(void);
 void sys_resize(int num);
 void sys_tron();
+void sys_opcode();
+void sys_divzero();
 
 #endif

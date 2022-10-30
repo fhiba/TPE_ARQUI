@@ -45,11 +45,6 @@ void date(){
     }
 }
 
-void div_zero() {
-    int i = 0;
-    i = 10/i;
-}
-
 void tron(){
     clear();
     printf("Welcome to tron!\n The game will start soon! \nPlayer 1 moves with WASD and is color blue\nPlayer 2 moves with the arrow keys and is color red\nGOOD LUCK, HAVE FUN!\n");

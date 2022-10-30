@@ -9,9 +9,8 @@ GLOBAL sys_infoRegs
 GLOBAL sys_getLast
 GLOBAL sys_snapshotRegs
 GLOBAL sys_resize
-GLOBAL divzero
-GLOBAL opcodetest
-GLOBAL opcode
+GLOBAL sys_divzero
+GLOBAL sys_opcode
 GLOBAL sys_tron
 
 sys_write:
@@ -69,10 +68,14 @@ sys_tron:
     int 80h
     ret
 
-divzero:
-    mov rax, 4
-    xor rbx, rbx
-    div rbx
+sys_divzero:
+    mov rax, 14
+    int 80h
+    ret
+
+sys_opcode:
+    mov rax, 15
+    int 80h
     ret
 
 opcodetest:
@@ -83,6 +86,3 @@ opcodetest:
     pop rbp
     ret
 
-opcode:
-    ud2
-    ret
