@@ -2,17 +2,27 @@
 #include <naiveConsole.h>
 #include <interrupts.h>
 #include <lib.h>
+#include <tron.h>
 
 #define STDIN 1
 #define RETVALUE -1
 
 void write(int fd, char*buffer, size_t count){
+    int color = 0;
     for(int i =0;i<count;i++){
         if(buffer[i] == '\n'){
             ncNewline();
         }
         else{
-            drawChar(buffer[i],BLANCO,NEGRO);
+            if(fd == 1)
+                color = BLANCO;
+            else if(fd == 2){
+                color = ROJO;
+            }
+            else if(fd == 3){
+                color = VERDE;
+            }
+            drawChar(buffer[i],color,NEGRO);
         }
     }
 }

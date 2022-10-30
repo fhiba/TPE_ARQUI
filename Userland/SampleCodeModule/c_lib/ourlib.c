@@ -1,7 +1,7 @@
 #include <syscallslib.h>
 
 #define STDIN 1
-#define MAXBUFF 150
+#define MAXBUFF 100000
 
 
 int strlen(char * string){
@@ -21,7 +21,15 @@ void putchar(char c){
 }
 
 void printf(char * string){
-    sys_write(STDIN,string,strlen(string));
+    sys_write(1,string,strlen(string));
+}
+
+void printerr(char * string){
+    sys_write(2,string,strlen(string));
+}
+
+void printFirst(char * string){
+    sys_write(3,string,strlen(string));
 }
 
 int scanf(char * buffer){

@@ -12,11 +12,9 @@ void exceptionDispatcher(int exception) {
 }
 
 static void zero_division() {
-	// Imprimir por pantalla mensaje de error.
-	// Devolver a windows powershell.
+	write(1, "Error: You may not divide by zero.");
 }
 
 static void invalid_opcode() {
-	// Imprimir por pantalla mensaje de error.
-	// Devolver a windows powershell.
+	write(1, "Error: Invalid Opcode");
 }

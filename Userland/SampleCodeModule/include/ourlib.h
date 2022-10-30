@@ -28,5 +28,7 @@ void putchar(char c);
 int strlen(char * string);
 void clear(void);
 int atoi(char * str);
+void printerr(char * str);
+void printFirst(char * str);
 
 #endif

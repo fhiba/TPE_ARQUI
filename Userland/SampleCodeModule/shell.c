@@ -5,7 +5,7 @@
 void shell(void){
     char buffer[100];
     while(1){
-        printf("$ ");
+        printFirst("$ ");
         int length = scanf(buffer);
         buffer[length - 1] = 0;
         getProgram(buffer);
@@ -27,6 +27,8 @@ void getProgram(char * buffer){
         tron();
     else if(strcmp(buffer,"INFOREG"))
         infoRegs();
+    else if(strcmp(buffer,"TEST"))
+        test();
     else
-        printf("Invalid Command\n");
+        printerr("Invalid Command\n");
 }

@@ -17,11 +17,6 @@ static char buffer[64] = { '0' };
 // const uint32_t width = screenInfo->width;
 // const uint32_t height = screenInfo->height;
 
-typedef struct pos{
-	int x;
-	int y;
-}pos;
-
 pos currentPos;
 
 void startPos(){
@@ -35,6 +30,21 @@ void startPos(){
 	size = 1;
 }
 
+uint32_t getHeight(){
+	return height;
+}
+uint32_t getWidth(){
+	return width;
+}
+uint32_t getScreen(){
+	return screenInfo->framebuffer;
+}
+int compare(pos p1, pos p2){
+	if(p1.x == p2.x && p1.y == p2.y)
+		return 1;
+	return 0;
+}
+
 static void putpixel(unsigned char* screen, int x,int y, int color) {
     unsigned where = x*screenInfo->bpp/8 + y*screenInfo->pitch;
     screen[where] = color & 255;              // BLUE
@@ -46,19 +56,22 @@ void drawcharAt(unsigned char c, int x, int y, int fgcolor, int bgcolor) {
 	int cx,cy;
 	int mask[8]={1,2,4,8,16,32,64,128};
 	unsigned char *glyph=fb_font+(int)c*FONT_SCANLINES;
-	for(cx=0;cx<8*size;cx++){
-		for(cy=0;cy<16*size;cy++){
+	for(cx=0;cx<8;cx++){
+		for(cy=0;cy<16;cy++){
 			putpixel((unsigned char*)currentVideo,x+cx*size, y+cy*size, glyph[cy]&mask[7-cx]?fgcolor:bgcolor);
 		}
 	}
 }
 
 void drawChar(unsigned char c,int fgcolor, int bgcolor){
+	if(currentPos.x + 8*size > width-8*size){
+		ncNewline();
+	}
 	drawcharAt(c,currentPos.x,currentPos.y,fgcolor,bgcolor);
-	if(currentPos.x < width*size){
+	if(currentPos.x < width-8*size){
 		currentPos.x+= 8*size;
 	}
-	else if(currentPos.y < height*size){
+	else if(currentPos.y < height-16*size){
 		currentPos.x = 0;
 		currentPos.y+=16*size;
 	}
@@ -71,13 +84,19 @@ void moveUp(){
 	for (int i = 0; i < height; i++)
 	{
 		for(int j = 0; j<width;j++){
-			current = j*screenInfo->bpp/8 + i*screenInfo->pitch;
-			where = j*screenInfo->bpp/8 + (i+16)*screenInfo->pitch;
-			currentVideo[current] = currentVideo[where];
-			currentVideo[current+1] = currentVideo[where+1] >> 8;
-			currentVideo[current+2] = currentVideo[where+2] >> 16;
+			if(i < height - 16*size){
+				current = j*screenInfo->bpp/8 + i*screenInfo->pitch;
+				where = j*screenInfo->bpp/8 + (i+16)*screenInfo->pitch;
+				currentVideo[current] = currentVideo[where];
+				currentVideo[current+1] = currentVideo[where+1] >> 8;
+				currentVideo[current+2] = currentVideo[where+2] >> 16;
+			}
+			else{
+				drawChar(' ',BLANCO,NEGRO);
+			}
 		}
 	}
+	currentPos.y = height - 16*size;
 	currentPos.x = 0;
 }
 
@@ -94,15 +113,15 @@ void deleteChar(){
 	currentPos.x -= 8*size;
 }
 
-void fillRect(unsigned char * vram, unsigned char r, unsigned char g, unsigned char b, unsigned char w, unsigned char h){
+void fillRect(unsigned char * vram, int color, unsigned char w, unsigned char h){
 	unsigned char * where = screenInfo->framebuffer + vram;
 	int i, j;
 	int pixelWidth = getBpp();
 	for(i = 0; i < w; i++){
 		for(j = 0; j < h;j++){
-			where[j*pixelWidth] = r;
-			where[j*pixelWidth + 1] = g;
-			where[j*pixelWidth + 2] = b;
+			where[j*pixelWidth] = color & 255;
+			where[j*pixelWidth + 1] = (color >> 8) & 255;
+			where[j*pixelWidth + 2] = (color >> 16) & 255;
 		}
 		where += screenInfo->pitch;
 	}
@@ -143,7 +162,7 @@ void ncNewline()
 			putpixel((unsigned char*)currentVideo,i,currentPos.y,0x000000);
 	}
 	currentPos.x = 0;
-	currentPos.y += 16;
+	currentPos.y += 16*size;
 }
 
 
