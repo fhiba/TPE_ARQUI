@@ -78,22 +78,9 @@ void drawChar(unsigned char c,int fgcolor, int bgcolor){
 		drawcharAt ( c, currentPos.x, currentPos.y, fgcolor, bgcolor );
 	} else {
 		moveUp();
-		drawcharAt ( c, currentPos.x, currentPos.y, fgcolor, bgcolor );
+		drawChar( c, fgcolor, bgcolor );
 	}
 
-	// if(currentPos.x + 8*size > width-8*size){
-	// 	ncNewline();
-	// }
-	// drawcharAt(c,currentPos.x,currentPos.y,fgcolor,bgcolor);
-	// if(currentPos.x < width-8*size){
-	// 	currentPos.x+= 8*size;
-	// }
-	// else if(currentPos.y < height-16*size){
-	// 	currentPos.x = 0;
-	// 	currentPos.y+=16*size;
-	// }
-	// else
-	// 	moveUp();
 }
 
 void moveUp(){
