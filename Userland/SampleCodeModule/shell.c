@@ -25,6 +25,8 @@ void getProgram(char * buffer){
         exitShell();
     else if(strcmp(buffer,"TRON"))
         tron();
+    else if(strcmp(buffer,"INFOREG"))
+        infoRegs();
     else if(strcmp(buffer,"TEST"))
         test();
     else

@@ -52,6 +52,6 @@ void tron(){
     sys_sleep(2500);
     sys_tron();
 }
-// void infoRegs(){
-//     sys_infoRegs();
-// }
+void infoRegs(){
+    sys_infoRegs();
+}

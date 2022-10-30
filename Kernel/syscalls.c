@@ -46,6 +46,9 @@ int read(int fd, char * buffer, size_t count){
                     break;
                 case '\n':
                     break;
+                case '=':
+                    takeSnapshot();
+                    break;
                 default:
                 {
                     drawChar(key,0xffffff,0x000000);
@@ -72,4 +75,34 @@ void resize(int num){
 
 void mydate(char value){
     rtcGet(value);
+}
+
+static char snapshot = 0;
+
+static const char* registerNames[17] = {
+    "RIP", "RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8 ", "R9 ", "R10", "R11", "R12", "R13", "R14", "R15"
+};
+
+static const uint64_t regsiterValues[17] = {0};
+void inforegs(){
+    if(!snapshot){
+        write(2,"Primero debe tomar un snapshot con la tecla =",46);
+        ncNewline();
+    }else{
+        for(int i = 0;i<17;i++){
+            write(3,registerNames[i],3);
+            write(1,": ",2);
+            ncPrintBase(regsiterValues[i],16);
+            ncNewline();
+        }
+    }
+}
+
+void takeSnapshot(){
+    saveRegisters(regsiterValues);
+    ncNewline();
+    write(1,"Snapshot tomado.",17);
+    ncNewline();
+    write(3,"$",1);
+    snapshot = 1;
 }

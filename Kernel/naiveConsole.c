@@ -164,8 +164,7 @@ void ncPrint(const char * string)
 
  void ncPrintChar(char character)
 {
-	*currentVideo = character;
-	currentVideo += 2;
+	drawChar(character,BLANCO,NEGRO);
 }
 
 void ncPrintDec(uint64_t value)

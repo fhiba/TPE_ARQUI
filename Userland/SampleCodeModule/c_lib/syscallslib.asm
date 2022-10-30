@@ -5,7 +5,7 @@ GLOBAL sys_clear
 GLOBAL sys_date
 GLOBAL sys_sleep
 GLOBAl sys_setScreen
-GLOBAL sys_inforeg
+GLOBAL sys_infoRegs
 GLOBAL sys_getLast
 GLOBAL sys_snapshotRegs
 GLOBAL sys_resize
@@ -48,7 +48,7 @@ sys_setScreen:
     int 80h
     ret
 
-sys_inforeg:
+sys_infoRegs:
     mov rax, 5
     int 80h
     ret
