@@ -67,7 +67,7 @@ void memprint(){
 	unsigned char buffer[32];
     unsigned char data[3];
     if(ok){
-		sys_printMem(pointer);
+		sys_printMem(pointer, buffer);
 	}else {
 	    printf("Direccion invalida");
 	}
