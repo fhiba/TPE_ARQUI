@@ -4,12 +4,22 @@
 
 
 void shell(void){
-    char buffer[100];
+    char buffer[100] = {0};
+    int idx = 0;
     while(1){
         printFirst("$ ");
-        int length = scanf(buffer);
-        buffer[length - 1] = 0;
+        do{
+            sys_read(1, buffer + idx, 1);
+            if(buffer[idx] != 0x7F)
+                sys_write(1, buffer + idx, 1);
+            else if (idx >= 0) {
+                sys_write(1, buffer + idx, 1);
+                idx-=1;
+            }
+        }while(buffer[idx++] != '\n');
+        buffer[idx-1] = 0;         
         getProgram(buffer);
+        idx = 0;
     }
 }
 

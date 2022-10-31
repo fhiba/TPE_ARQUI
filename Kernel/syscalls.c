@@ -7,13 +7,17 @@
 #define STDIN 1
 #define RETVALUE -1
 
+
+
+
 void write(int fd, char*buffer, size_t count){
     int color = 0;
     for(int i =0;i<count;i++){
         if(buffer[i] == '\n'){
             ncNewline();
-        }
-        else{
+        } else if (buffer[i] == 0x7F) {
+            deleteChar();
+        } else {
             if(fd == 1)
                 color = BLANCO;
             else if(fd == 2){
@@ -35,36 +39,16 @@ int read(int fd, char * buffer, size_t count){
     {
         int k = 0;
         unsigned char key = 0;
-        while(key != '\n' && k < count){
+        while(k < count && key == 0){
             _hlt();
             key = readKey();
-            switch(key){
-                case 0:
-                    break;
-                case 0xF0:
-                    if(k > 0){
-                        deleteChar(); //IMPLEMENTAR
-                        k--;
-                    }
-                    break;
-                case '\n':
-                    break;
-                case '=':
-                    takeSnapshot();
-                    write(1,"\nSnapshot tomado.\n",18);
-                    write(3,"$ ",2);
-                    break;
-                default:
-                {
-                    drawChar(key,0xffffff,0x000000);
-                    buffer[k++] = key;
-                }
+            if(key == '=') {
+                takeSnapshot();
             }
+                
+            if(key != 0)
+                buffer[k++] = key;
         }
-        if(key == '\n'){
-            ncNewline();
-        }
-        buffer[k] = 0;
         return k;
     }
     return -1;

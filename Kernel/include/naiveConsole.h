@@ -74,6 +74,6 @@ void moveUp();
 uint32_t getHeight();
 uint32_t getWidth();
 int compare(pos p1, pos p2);
-uint32_t getSreen();
+uint32_t getScreen();
 
 #endif
