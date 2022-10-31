@@ -48,11 +48,11 @@ rtcGet:
 	push rbp
 	mov rbp, rsp
 
-	mov al,dil
-	out 0x70,al
+	mov al, dil
+	out 0x70, al
 	in al, 0x71
 
-	mov rsp,rbp
+	mov rsp, rbp
 	pop rbp
 	ret
 

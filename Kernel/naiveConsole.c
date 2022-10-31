@@ -40,7 +40,7 @@ uint32_t getScreen(){
 	return screenInfo->framebuffer;
 }
 int compare(pos p1, pos p2){
-	if(p1.x == p2.x && p1.y == p2.y)
+	if(p1.x == p2.x || p1.y == p2.y)
 		return 1;
 	return 0;
 }

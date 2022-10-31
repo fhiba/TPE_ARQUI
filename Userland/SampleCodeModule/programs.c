@@ -3,7 +3,7 @@
 #include <syscallslib.h>
 
 void help(){
-    printf("Available Commands: \n-date\n-clear\n-help\n");
+    printf("Available Commands: \n-DATE:\n\n| SHOWS THE CURRENT DATE AND TIME |\n\n-RESIZE\n\n| CHANGE THE SIZE OF THE FONT |\n\n-CLEAR\n\n| CLEARS THE SCREEN\n\n-TRON\n\n| PLAY A TWO-PLAYER GAME WITH A FRIEND |\n\n-DIVZERO\n\n| SEE WHAT THE DIVZERO EXCEPTION LOOKS LIKE |\n\n-OPCODE\n\n| SEE WHAT THE OPCODE EXCEPTION LOOKS LIKE |\n\n-INFOREG\n\n| AFTER TAKING A SNAPSHOT WITH = SEE WHAT VALUES THE REGISTERS HOLD! |\n");
 }
 
 void clearProg(){
@@ -35,14 +35,29 @@ void test(){
 }
 
 void date(){
-    int values[5] = {7,8,9,4,2};
-    char buffer[3];
-    for(int i = 0; i < 5;i++){
+    int values[5] = {7,8,9,4,2}; //En orden: D, M, Y, H, M
+    char buffer[3]; // Cada numero de la fecha no va a tener más de dos digitos, 3 contando el cero null terminated
+    for (int i=0;i<5;i++){
         char num = getDateValues(values[i]);
-        if(num < 0xA){
-
+        cUintToBase(num,buffer,16);
+        if (num<0xA){
+            // Si el numero es de un solo digito, lo muevo un lugar a la derecha y a la izquierda le pongo un cero
+            char aux = buffer[0];
+            buffer[0]='0';
+            buffer[1]=aux;
+        }
+        buffer[2]=0; // Al string del numero le agrego un cero null terminated asi puedo usar strcpy
+        printf(buffer);
+        if (i<2){
+            printf("/");
+        } else if (i==3){
+            printf(":");
+        } else {
+            printf(" ");
         }
     }
+    printf("UTC\n");
+    return 0;
 }
 
 void tron(){
