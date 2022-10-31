@@ -131,3 +131,37 @@ clear
 make all
 gdb
 exit
+cd root
+cd Toolchain/
+make clean
+make all
+cd ..
+make clean
+make all
+gdb
+gb
+gdb
+make clean
+make all
+gdb
+gdb
+gdb
+clear
+gdb --version
+gdb
+clear
+gdb
+clear
+make clean
+make all
+gdb
+clear
+gdb
+exit
+cd root/
+ls
+cd .config
+ls -a
+cat .gdbinit 
+clear
+exit

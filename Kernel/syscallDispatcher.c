@@ -42,8 +42,10 @@ int sys_dispatcher(int arg0, int arg1, int arg2){
             break;
         case 14:
             divzero();
+            break;
         case 15:
             opcode();
+            break;
         default:
             return -1;
     }

@@ -224,9 +224,7 @@ divzero:
     mov rax, 4
     xor rbx, rbx
     div rbx
-	call takeSnapshot
-	call inforegs
-    ret
+    iretq
 
 opcode:
     ud2

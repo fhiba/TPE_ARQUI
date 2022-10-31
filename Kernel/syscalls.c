@@ -48,6 +48,8 @@ int read(int fd, char * buffer, size_t count){
                     break;
                 case '=':
                     takeSnapshot();
+                    write(1,"\nSnapshot tomado.\n",18);
+                    write(3,"$ ",2);
                     break;
                 default:
                 {
@@ -100,9 +102,5 @@ void inforegs(){
 
 void takeSnapshot(){
     saveRegisters(regsiterValues);
-    ncNewline();
-    write(1,"Snapshot tomado.",17);
-    ncNewline();
-    write(3,"$",1);
     snapshot = 1;
 }

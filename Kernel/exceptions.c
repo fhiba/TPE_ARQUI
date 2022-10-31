@@ -15,10 +15,13 @@ void exceptionDispatcher(int exception) {
 }
 
 static void zero_division() {
+	takeSnapshot();
 	write(1, "Err: You may not divide by zero.\n", 33);
+	inforegs();
 }
 
 static void invalid_opcode() {
+	takeSnapshot();
 	write(1, "Err: Invalid Opcode\n", 20);
 	inforegs();
 }
