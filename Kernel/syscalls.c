@@ -22,6 +22,9 @@ void write(int fd, char*buffer, size_t count){
             else if(fd == 3){
                 color = VERDE;
             }
+            else if(fd == 4){
+                color = CELESTE;
+            }
             drawChar(buffer[i],color,NEGRO);
         }
     }
@@ -92,7 +95,7 @@ void inforegs(){
         ncNewline();
     }else{
         for(int i = 0;i<17;i++){
-            write(3,registerNames[i],3);
+            write(4,registerNames[i],3);
             write(1,": ",2);
             ncPrintBase(regsiterValues[i],16);
             ncNewline();
