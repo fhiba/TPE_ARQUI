@@ -2,6 +2,7 @@ GLOBAL cpuVendor
 GLOBAL getKey
 GLOBAL saveRegisters
 GLOBAL rtcGet
+GLOBAL getDir
 section .text
 	
 cpuVendor:
@@ -56,6 +57,9 @@ rtcGet:
 	pop rbp
 	ret
 
+getDir:
+	mov rax, [rdi]
+	ret
 
 saveRegisters:
 	mov [rdi+2*8], rbx

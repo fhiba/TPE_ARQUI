@@ -1,6 +1,7 @@
 #include <programs.h>
 #include <ourlib.h>
 #include <syscallslib.h>
+#include <stdint.h>
 
 void help(){
     printf("Available Commands: \n-date\n-clear\n-help\n");
@@ -54,4 +55,22 @@ void tron(){
 }
 void infoRegs(){
     sys_infoRegs();
+}
+
+
+void memprint(){
+	char pos[8] ={0};
+    printf("Ingrese la direccion a imprimir, 8 caracteres en formato hexa\n");
+	scanf(pos);
+	int ok = 1;
+	uint64_t pointer = hex2int(pos,&ok);
+	unsigned char buffer[32];
+    unsigned char data[3];
+    if(ok){
+		sys_printMem(pointer);
+	}else {
+	    printf("Direccion invalida");
+	}
+    putchar('\n');
+	return 0;
 }

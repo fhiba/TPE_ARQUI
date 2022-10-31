@@ -24,7 +24,7 @@ sys_read:
     ret
 
 sys_printMem:
-    mov rax, 4
+    mov rax, 10
     int 80h
     ret
 

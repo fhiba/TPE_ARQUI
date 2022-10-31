@@ -35,6 +35,9 @@ int sys_dispatcher(int arg0, int arg1, int arg2){
         case 9:
             resize(arg0);
             break;
+        case 10:
+            printMem(arg0);
+            break;
         case 13:
             tronRun();
             break;

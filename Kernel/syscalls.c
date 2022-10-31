@@ -106,3 +106,30 @@ void takeSnapshot(){
     write(3,"$",1);
     snapshot = 1;
 }
+
+uint64_t xtou64(const char *str)
+{
+    uint64_t res = 0;
+    char c;
+
+    while ((c = *str++)) {
+        char v = (c & 0xF) + (c >> 6) | ((c >> 3) & 0x8);
+        res = (res << 4) | (uint64_t) v;
+    }
+
+    return res;
+} 
+
+void printMem(uint64_t pointer, unsigned char * buf)
+{
+	uint8_t *start = (uint8_t *)pointer;
+	for (int i = 0; i < 32; i++)
+	{
+		buf[i] = start[i];
+	}
+    unsigned char data[3];
+    for(int i=0; i < 32; i++){
+        ncPrintHex(buf[i]);
+    }
+}
+

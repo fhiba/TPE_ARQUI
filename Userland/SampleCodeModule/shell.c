@@ -27,6 +27,8 @@ void getProgram(char * buffer){
         tron();
     else if(strcmp(buffer,"INFOREG"))
         infoRegs();
+    else if(strcmp(buffer,"MEMPRINT"))
+        memprint();
     else if(strcmp(buffer,"TEST"))
         test();
     else
