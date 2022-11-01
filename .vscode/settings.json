@@ -14,6 +14,7 @@
     "programs.h": "c",
     "keyboard_driver.h": "c",
     "time.h": "c",
-    "ourlib.h": "c"
+    "ourlib.h": "c",
+    "speakerdriver.h": "c"
   }
 }
