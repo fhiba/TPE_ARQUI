@@ -2,6 +2,13 @@ GLOBAL cpuVendor
 GLOBAL getKey
 GLOBAL saveRegisters
 GLOBAL rtcGet
+<<<<<<< Updated upstream
+=======
+GLOBAL getDir
+GLOBAL inb
+GLOBAL outb
+
+>>>>>>> Stashed changes
 section .text
 	
 cpuVendor:
@@ -79,3 +86,22 @@ saveRegisters:
 	pop rbx
 	ret
 	
+
+;Beep
+
+inb:
+    push rbp
+    mov rbp, rsp
+    mov rdx,rdi    ;puerto
+    in al,dx       ;valor del puerto
+    leave
+    ret
+
+outb:
+    push rbp
+    mov rbp, rsp
+    mov rax, rsi     ;valor    
+    mov rdx, rdi     ;puerto
+    out dx, al
+    leave
+    ret
