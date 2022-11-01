@@ -17,5 +17,6 @@ void sys_resize(int num);
 void sys_tron();
 void sys_opcode();
 void sys_divzero();
+void sys_beep();
 
 #endif

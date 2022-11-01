@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include <syscalls.h>
 #include <tron.h>
+#include <speakerDriver.h>
 #include "./include/time.h"
 
 static int num_syscall;
@@ -45,6 +46,9 @@ int sys_dispatcher(int arg0, int arg1, int arg2){
             break;
         case 15:
             opcode();
+            break;
+        case 16:
+            beep();
             break;
         default:
             return -1;

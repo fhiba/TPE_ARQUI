@@ -2,8 +2,6 @@
 #include <stdint.h>
 //Make it go beep!
 
-enum acordes{A=880, AS= 932, B=988, C=523, CS=554, D=587, DS=622, 
-E=659, F=698, FS=740, G=784, GS=831, S=250000 , D7 = 2349};
  //Play sound using built in speaker
 static void play_sound(uint32_t nFrequence) {
     uint32_t Div;
