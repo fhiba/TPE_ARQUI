@@ -33,8 +33,9 @@ directions p1_lastDir;
 directions p2_lastDir; 
 int player_Length = 0;
 
-char actions[5] = {-1};
+char actions[10] = {-1};
 int action_idx = 0;
+
 void tronRun(){
     sys_clear();
     
@@ -51,18 +52,19 @@ void tronRun(){
             refresh();
             winner();
         */
-        sys_read(1, actions, 5);
-        for(action_idx = 0; action_idx < 5 || winner != 0; action_idx++) {
+        sys_read(1, actions, 10);
+        for(action_idx = 0; action_idx < 10 || winner == 0; action_idx++) {
             if(quit == 0) { 
                 player_Length++;
                 updatePos();
                 refresh();
-                //winner = checkWinner();
+                winner = checkWinner();
+                sys_sleep(30);
             } else{
                 quit = 1;
             }
         }
-    } while(quit == 0 && winner != 0);
+    } while(quit == 0 && winner == 0);
     
     sys_clear();
     
@@ -77,7 +79,7 @@ void tronRun(){
 
 void updatePos() {
     p1_lastDir = p1_Dir;
-    p2_lastDir = p1_Dir;
+    p2_lastDir = p2_Dir;
     getDirs();
     int i = 1;
     for(; i < player_Length ; i++) {
