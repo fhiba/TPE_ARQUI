@@ -18,16 +18,19 @@ void write(int fd, char*buffer, size_t count){
         } else if (buffer[i] == 0x7F) {
             deleteChar();
         } else {
-            if(fd == 1)
+            switch(fd){
+            case 1:
                 color = BLANCO;
-            else if(fd == 2){
+                break;
+            case 2:
                 color = ROJO;
-            }
-            else if(fd == 3){
+                break;
+            case 3:
                 color = VERDE;
-            }
-            else if(fd == 4){
+                break;
+            case 4:
                 color = CELESTE;
+                break;
             }
             drawChar(buffer[i],color,NEGRO);
         }

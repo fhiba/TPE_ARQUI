@@ -12,8 +12,10 @@ void clearProg(){
 
 void resize(){
     printf("Choose a multiplier to resize the font!\n");
-    char buffer[1];
-    scanf(buffer);
+    char buffer[2] = {0};
+    sys_read(1,buffer,1);
+    printf(buffer);
+    printf("\n");
     int aux = atoi(buffer);
     sys_resize(aux);
 }
@@ -57,7 +59,6 @@ void date(){
         }
     }
     printf("UTC\n");
-    return 0;
 }
 
 void tron(){

@@ -75,7 +75,7 @@ void drawChar(unsigned char c,int fgcolor, int bgcolor){
 	} else if (currentPos.y + 16 * size <= height) {
 		currentPos.y+= 16*size;
 		currentPos.x = 0;
-		drawcharAt ( c, currentPos.x, currentPos.y, fgcolor, bgcolor );
+		drawChar( c,fgcolor, bgcolor );
 	} else {
 		moveUp();
 		drawChar( c, fgcolor, bgcolor );
@@ -115,7 +115,9 @@ void nResize(int num){
 }
 
 void deleteChar(){
-	
+	if(currentPos.x == 0 && currentPos.y == 0){
+		return;
+	}
 	if(currentPos.x - 8*size < 0) {
 		currentPos.y -= 16*size;
 		currentPos.x = width - 8 * size;
