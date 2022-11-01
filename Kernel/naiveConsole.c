@@ -128,8 +128,8 @@ void deleteChar(){
 	drawcharAt(' ',currentPos.x,currentPos.y,0xffffff,0x000000);
 }
 
-void fillRect(unsigned char * vram, int color, unsigned char w, unsigned char h){
-	unsigned char * where = screenInfo->framebuffer + vram;
+void fillRect(int x, int y, int color, unsigned char w, unsigned char h){
+	unsigned char * where = x*screenInfo->bpp/8 + y*screenInfo->pitch;
 	int i, j;
 	int pixelWidth = getBpp();
 	for(i = 0; i < w; i++){

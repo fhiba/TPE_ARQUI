@@ -4,5 +4,6 @@
 #include <syscallslib.h>
 
 void tronRun();
+int checkCollision();
 
 #endif

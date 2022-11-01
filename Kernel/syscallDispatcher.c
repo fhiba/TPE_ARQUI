@@ -11,7 +11,7 @@ void set_syscall(int num){
     num_syscall = num;
 }
 
-int sys_dispatcher(int arg0, int arg1, int arg2, int arg3){
+int sys_dispatcher(int arg0, int arg1, int arg2, int arg3,int arg4){
     switch(num_syscall){
         case 1:
             read(arg0,(char*)arg1,(size_t)arg2);
@@ -44,7 +44,7 @@ int sys_dispatcher(int arg0, int arg1, int arg2, int arg3){
             opcode();
             break;
         case 16:
-            fillRect((unsigned char *)arg0,arg1,arg2,arg3);
+            fillRect(arg0,arg1,arg2,arg3,arg4);
             break;
         case 17:
             beep();

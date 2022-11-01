@@ -21,7 +21,7 @@ void ncPrintHex(uint64_t value);
 void ncPrintBin(uint64_t value);
 void ncPrintBase(uint64_t value, uint32_t base);
 void ncClear();
-void fillRect(unsigned char * vram, int color, unsigned char w, unsigned char h);
+void fillRect(int x, int y, int color, unsigned char w, unsigned char h);
 void drawcharAt(unsigned char c, int x, int y, int fgcolor, int bgcolor);
 
 struct vbe_mode_info_structure{
