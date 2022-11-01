@@ -6,7 +6,7 @@
 #include <keyboard_driver.h>
 #include <idtLoader.h>
 #include <syscalls.h>
-
+#include <speakerDriver.h>
 extern uint8_t text;
 extern uint8_t rodata;
 extern uint8_t data;
@@ -86,6 +86,9 @@ int main()
 {	
 	load_idt();
 	startPos();
+	beep();
 	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;
 }
+
+

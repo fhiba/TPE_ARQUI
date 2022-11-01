@@ -12,6 +12,8 @@ GLOBAL sys_resize
 GLOBAL sys_divzero
 GLOBAL sys_opcode
 GLOBAL sys_recto
+GLOBAL sys_tron
+GLOABL sys_beep
 
 sys_write:
     mov rax, 2
@@ -20,6 +22,11 @@ sys_write:
 
 sys_read:
     mov rax, 1
+    int 80h
+    ret
+
+sys_beep:
+    mov rax, 17
     int 80h
     ret
 

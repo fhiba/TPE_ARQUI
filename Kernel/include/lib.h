@@ -9,4 +9,7 @@ void sleep(long ms);
 char *cpuVendor(char *result);
 char rtcGet(char value);
 void saveRegisters(uint64_t registerValues[17]);
+uint64_t getDir(uint64_t dir);
+uint8_t inb(uint8_t b);
+void outb(uint8_t b2,uint8_t b1);
 #endif

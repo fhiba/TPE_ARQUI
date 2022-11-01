@@ -17,5 +17,6 @@ void sys_resize(int num);
 void sys_opcode();
 void sys_divzero();
 void sys_recto(unsigned char * pos,int color, int width, int height);
+void sys_beep();
 
 #endif
