@@ -15,9 +15,8 @@ GLOBAL sys_opcode
 GLOBAL sys_recto
 GLOBAL sys_tron
 GLOBAL sys_beep
-
 GLOBAL sys_printBase
-
+GLOBAL sys_isBlackPixel
 sys_write:
     mov rax, 2
     int 80h
@@ -96,6 +95,11 @@ sys_recto:
 
 sys_printBase:
     mov rax, 20
+    int 80h
+    ret
+
+sys_isBlackPixel:
+    mov rax, 23
     int 80h
     ret
 

@@ -1,7 +1,6 @@
 #include <tron.h>
-#include <math.h>
 
-#define AMOUNT 3
+#define AMOUNT 1
 #define MAX_LENGTH 1000
 #define P1_COLOR 0x00ffff
 #define P2_COLOR 0xffff00
@@ -18,8 +17,8 @@ typedef struct rect
 
 
 typedef struct playerPos{
-    int x;
-    int y;
+    unsigned int x;
+    unsigned int y;
 }playerPos;
 
 void getDirs();
@@ -27,8 +26,7 @@ void initPos();
 void updatePos();
 int checkWinner();
 void refresh();
-int checkCollision(playerPos head, playerPos outer_body);
-int rectOverlap(playerPos head, playerPos body);
+int checkCollision(playerPos, playerPos);
 
 
 playerPos player2[MAX_LENGTH];
@@ -73,8 +71,9 @@ void tronRun(){
                     player_Length++;
                 }
                 updatePos();
-                refresh();
+
                 winner = checkWinner();
+                refresh();
             } else{
                 quit = 1;
             }
@@ -88,7 +87,7 @@ void tronRun(){
         sys_write(1, winner == 1? "1 ":"2 ", 2);
         sys_write(1, "won.", 4);
     }
-    sys_beep();
+    //sys_beep();
     sys_sleep(2000);
     sys_clear();
 }
@@ -150,8 +149,8 @@ void initPos() {
     player2[0].x = 3*1024/4;
     player2[0].y = 768/2;
 
-    p1_Dir = UP;
-    p2_Dir = DOWN;
+    p1_Dir = RIGHT;
+    p2_Dir = LEFT;
 }
 
 
@@ -199,8 +198,10 @@ void getDirs() {
 void refresh() {
     int i = 0;
     while (i < player_Length) {
-        sys_recto(player1[i].x - AMOUNT, player1[i].y - AMOUNT,P1_COLOR , AMOUNT, AMOUNT);
-        sys_recto(player2[i].x - AMOUNT, player2[i].y - AMOUNT,P2_COLOR , AMOUNT, AMOUNT);
+        // sys_recto(player1[i].x - AMOUNT, player1[i].y - AMOUNT,P1_COLOR , AMOUNT, AMOUNT);
+        // sys_recto(player2[i].x - AMOUNT, player2[i].y - AMOUNT,P2_COLOR , AMOUNT, AMOUNT);
+        sys_recto(player1[i].x, player1[i].y, P1_COLOR, AMOUNT, AMOUNT);
+        sys_recto(player2[i].x, player2[i].y, P2_COLOR, AMOUNT, AMOUNT);
         i++;
     }
 }
@@ -215,39 +216,67 @@ int checkWinner() {
 
 
     for(int i = 0; i < player_Length; i++) {
-        if(rectOverlap(player1[0], player2[i]))
+        if(checkCollision(player1[0], player2[i]) != 0)
             return 2;
-        if(player_Length > 2 && rectOverlap(player1[0], player1[i]))
-            return 2;
-        if(rectOverlap(player2[0], player1[i]))
+
+        if(checkCollision(player2[0], player1[i]) != 0)
             return 1;
-        if(player_Length > 2 &&  rectOverlap(player2[0], player2[i]))
-            return 1;
+        // if(i > AMOUNT * AMOUNT * 2 && checkCollision(player1[0], player1[i]) != 0)
+        //     return 2;
     }
+
+
+
+    
+
+    // if(i > AMOUNT && checkCollision(player2[0], player2[i]) != 0)
+    //     return 2;
+    // if(checkCollision(player1[0]))
+    //     return 2;
+
+    // if(checkCollision(player2[0]))
+    //     return 1;
+
     return 0;
 }
 
 
 int checkCollision(playerPos head, playerPos outer_body) {
-    playerPos head_top;
-    head_top.x = head.x - AMOUNT;
-    head_top.x = head.y - AMOUNT;
+    // playerPos head_top;
+    // head_top.x = head.x - AMOUNT;
+    // head_top.x = head.y - AMOUNT;
     
-    playerPos head_bottom; 
-    head_bottom.x = head.x + AMOUNT;
-    head_bottom.x = head.y + AMOUNT;
+    // playerPos head_bottom; 
+    // head_bottom.x = head.x + AMOUNT;
+    // head_bottom.x = head.y + AMOUNT;
 
-    playerPos body_top;
-    body_top.x = outer_body.x - AMOUNT;
-    body_top.x = outer_body.y - AMOUNT;
+    // playerPos body_top;
+    // body_top.x = outer_body.x - AMOUNT;
+    // body_top.x = outer_body.y - AMOUNT;
     
     
-    playerPos body_bottom;
-    body_bottom.x = outer_body.x + AMOUNT;
-    body_bottom.x = outer_body.y + AMOUNT;
-
-    if ((head.x-outer_body.x)*(head.x-outer_body.x) + (head.y-outer_body.y)*(head.y-outer_body.y) < AMOUNT*AMOUNT);
+    // playerPos body_bottom;
+    // body_bottom.x = outer_body.x + AMOUNT;
+    // body_bottom.x = outer_body.y + AMOUNT;
+    // long dist_x = (head.x - outer_body.x);
+    // long dist_y = (head.y - outer_body.y);   
+    // long dist_x2 = dist_x * dist_x;
+    // long dist_y2 = dist_y * dist_y;
+    // if(dist_x2 + dist_y2 < AMOUNT * AMOUNT)
+    if(isBlackPixel(head.x, head,y) == 0)
         return 1;
+    //if(head.x == outer_body.x && head.y == outer_body.y)
+      //  return 1;
+
+
+    // for (int i = - AMOUNT; i <= AMOUNT; i++) {
+    //     for(int j = - AMOUNT; j <= AMOUNT; j++) {
+    //         if(head.x + i >= 0 && head.x + i <= 1024 && head.y + j >= 0 && head.y + j <= 768) {
+    //             if (sys_isBlackPixel(head.x + i, head.y + j) == 0)
+    //                 return 1;
+    //         }
+    //     }
+    // }
     return 0;
 }
 
