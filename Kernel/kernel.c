@@ -86,7 +86,7 @@ int main()
 {	
 	load_idt();
 	startPos();
-	beep();
+	//beep();
 	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;
 }

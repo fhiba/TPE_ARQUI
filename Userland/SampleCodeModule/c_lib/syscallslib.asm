@@ -16,6 +16,8 @@ GLOBAL sys_recto
 GLOBAL sys_tron
 GLOBAL sys_beep
 
+GLOBAL sys_printBase
+
 sys_write:
     mov rax, 2
     int 80h
@@ -88,6 +90,12 @@ sys_opcode:
 
 sys_recto:
     mov rax,16
+    int 80h
+    ret
+
+
+sys_printBase:
+    mov rax, 20
     int 80h
     ret
 

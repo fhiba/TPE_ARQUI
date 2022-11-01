@@ -18,5 +18,5 @@ void sys_opcode();
 void sys_divzero();
 void sys_recto(int x, int y,int color, int width, int height);
 void sys_beep();
-
+void sys_printBase(uint64_t value, uint32_t base);
 #endif

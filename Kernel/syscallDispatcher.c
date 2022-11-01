@@ -32,7 +32,10 @@ int sys_dispatcher(int arg0, int arg1, int arg2, int arg3,int arg4){
             tsleep((long)arg0);
             break;
         case 6:
-            mydate(arg0);
+            return mydate(arg0);
+            break;
+        case 20:
+            printBase((uint64_t)arg0, (uint32_t) arg1);
             break;
         case 9:
             resize(arg0);

@@ -64,8 +64,8 @@ void resize(int num){
     nResize(num);
 }
 
-void mydate(char value){
-    rtcGet(value);
+char mydate(char value){
+    return rtcGet(value);
 }
 
 static char snapshot = 0;
@@ -117,4 +117,8 @@ void printMem(uint64_t pointer, unsigned char * buf)
     for(int i=0; i < 32; i++){
         // ncPrintHex(buf[i]);
     }
+}
+
+void printBase(uint64_t value, uint32_t base) {
+    ncPrintBase(value, base);
 }

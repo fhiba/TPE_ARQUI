@@ -6,7 +6,7 @@ void clearProg();
 void resize();
 void exitShell();
 void date();
-char getDateValues(int value);
+char getDateValues(char value);
 void infoRegs();
 void div_zero();
 void opcodetest();

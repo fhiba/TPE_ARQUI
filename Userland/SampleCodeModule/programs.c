@@ -26,7 +26,7 @@ void exitShell(){
 }
 
 
-char getDateValues(int value){
+char getDateValues(char value){
     return sys_date(value);
 }
 
@@ -39,18 +39,18 @@ void test(){
 
 void date(){
     int values[5] = {7,8,9,4,2}; //En orden: D, M, Y, H, M
-    char buffer[3]; // Cada numero de la fecha no va a tener más de dos digitos, 3 contando el cero null terminated
+    // char buffer[3] = {}; // Cada numero de la fecha no va a tener más de dos digitos, 3 contando el cero null terminated
     for (int i=0;i<5;i++){
         char num = getDateValues(values[i]);
-        cUintToBase(num,buffer,16);
-        if (num<0xA){
-            // Si el numero es de un solo digito, lo muevo un lugar a la derecha y a la izquierda le pongo un cero
-            char aux = buffer[0];
-            buffer[0]='0';
-            buffer[1]=aux;
-        }
-        buffer[2]=0; // Al string del numero le agrego un cero null terminated asi puedo usar strcpy
-        printf(buffer);
+        // cUintToBase(num,buffer,16);
+        // if (num<0xA){
+        //     // Si el numero es de un solo digito, lo muevo un lugar a la derecha y a la izquierda le pongo un cero
+        //     char aux = buffer[0];
+        //     buffer[0]='0';
+        //     buffer[1]=aux;
+        // }
+        // buffer[2]=0; // Al string del numero le agrego un cero null terminated asi puedo usar strcpy
+        sys_printBase(num, 16);
         if (i<2){
             printf("/");
         } else if (i==3){
