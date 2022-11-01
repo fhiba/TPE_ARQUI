@@ -2,7 +2,6 @@
 #include <naiveConsole.h>
 #include <interrupts.h>
 #include <lib.h>
-#include <tron.h>
 
 #define STDIN 1
 #define RETVALUE -1

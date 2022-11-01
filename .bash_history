@@ -180,3 +180,13 @@ make all
 cd ..
 make all
 exit
+cd root
+make clean
+cd Toolchain
+make clean
+make all
+cd ..
+make all
+make all
+make
+exit

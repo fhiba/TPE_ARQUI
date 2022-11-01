@@ -1,6 +1,7 @@
 #include <programs.h>
 #include <syscallslib.h>
 #include <shell.h>
+#include <tron.h>
 
 
 void shell(void){

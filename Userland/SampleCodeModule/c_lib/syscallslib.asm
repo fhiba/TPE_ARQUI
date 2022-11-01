@@ -11,7 +11,7 @@ GLOBAL sys_snapshotRegs
 GLOBAL sys_resize
 GLOBAL sys_divzero
 GLOBAL sys_opcode
-GLOBAL sys_tron
+GLOBAL sys_recto
 
 sys_write:
     mov rax, 2
@@ -75,6 +75,11 @@ sys_divzero:
 
 sys_opcode:
     mov rax, 15
+    int 80h
+    ret
+
+sys_recto:
+    mov rax,16
     int 80h
     ret
 

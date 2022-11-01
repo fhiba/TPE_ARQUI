@@ -1,6 +1,7 @@
 #include <programs.h>
 #include <ourlib.h>
 #include <syscallslib.h>
+#include <tron.h>
 
 void help(){
     printf("Available Commands: \n-DATE:\n\n| SHOWS THE CURRENT DATE AND TIME |\n\n-RESIZE\n\n| CHANGE THE SIZE OF THE FONT |\n\n-CLEAR\n\n| CLEARS THE SCREEN\n\n-TRON\n\n| PLAY A TWO-PLAYER GAME WITH A FRIEND |\n\n-DIVZERO\n\n| SEE WHAT THE DIVZERO EXCEPTION LOOKS LIKE |\n\n-OPCODE\n\n| SEE WHAT THE OPCODE EXCEPTION LOOKS LIKE |\n\n-INFOREG\n\n| AFTER TAKING A SNAPSHOT WITH = SEE WHAT VALUES THE REGISTERS HOLD! |\n");
@@ -63,9 +64,9 @@ void date(){
 
 void tron(){
     clear();
-    printf("Welcome to tron!\n The game will start soon! \nPlayer 1 moves with WASD and is color blue\nPlayer 2 moves with the arrow keys and is color red\nGOOD LUCK, HAVE FUN!\n");
+    printf("Welcome to tron!\n The game will start soon! \nPlayer 1 moves with WASD and is color blue\nPlayer 2 moves IJKL and is color red\nGOOD LUCK, HAVE FUN!\n");
     sys_sleep(2500);
-    sys_tron();
+    tronRun();
 }
 
 void infoRegs(){
