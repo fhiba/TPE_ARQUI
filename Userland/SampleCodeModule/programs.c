@@ -72,3 +72,45 @@ void tron(){
 void infoRegs(){
      sys_infoRegs();
 }
+
+
+void memPrint(){
+    printf("Ingrese una direccion en hexa de 8 caracteres\n");
+    printf("Ej: 12345678\n");
+    char buffer[90] = {0};
+    int idx = 0;
+    do{
+            sys_read(1, buffer + idx, 1);
+            if(buffer[idx] == 0){
+                
+            }
+            else if(buffer[idx] != 0x7F){
+                sys_write(1, buffer + idx, 1);
+                idx++;
+            }
+            else if (idx > 0) {
+                sys_write(1, buffer + idx, 1);
+                idx--;
+            }
+    }while(buffer[idx-1] != '\n');
+    buffer[idx-1] = 0;    
+    int ok = 1;
+    uint64_t dir = stringToUint64(buffer,&ok);
+    if(!ok || idx > 9){
+        printf("Direccion invalida, tremendo bot\n");
+        return;
+    }
+    unsigned char memStr[20] = {0};
+    sys_printMem(dir,memStr);
+    for(int i=0; i < 20; i++){
+        if(i != 0 && i %5 ==0)
+            putchar('\n');
+        if(memStr[i] <16){
+            putchar('0');
+        }
+        sys_printBase(memStr[i],16);
+
+        putchar(' ');
+    }
+    putchar('\n');
+}

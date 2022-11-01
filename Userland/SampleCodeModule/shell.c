@@ -50,6 +50,8 @@ void getProgram(char * buffer){
         sys_opcode();
     else if(strcmp(buffer,"TEST"))
         test();
+    else if(strcmp(buffer,"MEMPRINT"))
+        memPrint();
     else
         printerr("Invalid Command\n");
 }

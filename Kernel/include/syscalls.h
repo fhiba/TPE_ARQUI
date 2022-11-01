@@ -9,4 +9,5 @@ void inforegs();
 void takeSnapshot();
 int64_t date(char value);
 void printBase(uint64_t value,uint32_t base);
+void memPrint(uint64_t pointer, unsigned char * buf);
 #endif

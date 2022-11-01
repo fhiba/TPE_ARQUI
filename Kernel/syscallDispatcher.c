@@ -52,6 +52,8 @@ int sys_dispatcher(int arg0, int arg1, int arg2, int arg3,int arg4){
         case 17:
             beep();
             break;
+        case 40:
+            memPrint((uint64_t) arg0, (unsigned char *) arg1);
         default:
             return -1;
     }

@@ -112,11 +112,17 @@ void printMem(uint64_t pointer, unsigned char * buf)
 	{
 		buf[i] = start[i];
 	}
-    for(int i=0; i < 32; i++){
-        // ncPrintHex(buf[i]);
-    }
 }
 
 void printBase(uint64_t value, uint32_t base) {
     ncPrintBase(value, base);
+}
+
+void memPrint(uint64_t pointer, unsigned char * buf)
+{
+	uint8_t *start = (uint8_t *)pointer;
+	for (int i = 0; i < 20; i++)
+	{
+		buf[i] = start[i];
+	}
 }

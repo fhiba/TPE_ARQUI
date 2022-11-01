@@ -97,3 +97,25 @@ uint32_t cUintToBase(uint64_t value, char * buffer, uint32_t base)
 
     return digits;
 }
+
+uint64_t stringToUint64(char *hex, int *ok) {
+    uint64_t val = 0;
+    int len = 0;
+    while (*hex && len <8 ) {
+        // get current character then increment
+        uint8_t byte = *hex++;
+	
+        if (!(byte >= '0' && byte <= '9') && !(byte >= 'a' && byte <= 'f') && !(byte >= 'A' && byte <= 'F')) {
+          *ok = 0;
+          return 0;
+        }
+        // transform hex character to the 4bit equivalent number, using the ascii table indexes
+        if (byte >= '0' && byte <= '9') byte = byte - '0';
+        else if (byte >= 'a' && byte <='f') byte = byte - 'a' + 10;
+        else if (byte >= 'A' && byte <='F') byte = byte - 'A' + 10;
+        // shift 4 to make space for new digit, and add the 4 bits of the new digit
+        val = (val << 4) | (byte & 0xF);
+	len++;
+    }
+    return val;
+}
