@@ -41,14 +41,12 @@ int read(int fd, char * buffer, size_t count){
     {
         int k = 0;
         unsigned char key = 0;
-        while(k < count && key == 0){
+        while(k < count ){
             _hlt();
             key = readKey();
             if(key == '=') {
                 takeSnapshot();
             }
-                
-            if(key != 0)
                 buffer[k++] = key;
         }
         return k;

@@ -129,16 +129,11 @@ void deleteChar(){
 }
 
 void fillRect(int x, int y, int color, unsigned char w, unsigned char h){
-	unsigned char * where = x*screenInfo->bpp/8 + y*screenInfo->pitch;
 	int i, j;
-	int pixelWidth = getBpp();
 	for(i = 0; i < w; i++){
 		for(j = 0; j < h;j++){
-			where[j*pixelWidth] = color & 255;
-			where[j*pixelWidth + 1] = (color >> 8) & 255;
-			where[j*pixelWidth + 2] = (color >> 16) & 255;
+			putpixel(screenInfo->framebuffer, x + i, y + j, color);	
 		}
-		where += screenInfo->pitch;
 	}
 	
 }

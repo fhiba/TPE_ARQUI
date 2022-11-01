@@ -16,7 +16,7 @@ void sys_snapshotRegs(void);
 void sys_resize(int num);
 void sys_opcode();
 void sys_divzero();
-void sys_recto(int x, int y,int color, int width, int height);
+void sys_recto(int x, int y,int color, unsigned char width, unsigned char height);
 void sys_beep();
 void sys_printBase(uint64_t value, uint32_t base);
 #endif

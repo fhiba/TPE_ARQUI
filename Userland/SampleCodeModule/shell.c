@@ -11,7 +11,10 @@ void shell(void){
         printFirst("$ ");
         do{
             sys_read(1, buffer + idx, 1);
-            if(buffer[idx] != 0x7F){
+            if(buffer[idx] == 0){
+                
+            }
+            else if(buffer[idx] != 0x7F){
                 sys_write(1, buffer + idx, 1);
                 idx++;
             }
