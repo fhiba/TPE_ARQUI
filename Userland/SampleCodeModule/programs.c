@@ -14,8 +14,12 @@ void clearProg(){
 void resize(){
     printf("Choose a multiplier to resize the font!\n");
     char buffer[2] = {0};
-    sys_read(1,buffer,1);
-    printf(buffer);
+
+    do{
+        sys_read(1, buffer, 1);
+    }while(buffer[0] == 0);
+
+    sys_write(1, buffer, 1);
     printf("\n");
     int aux = atoi(buffer);
     sys_resize(aux);
