@@ -93,9 +93,6 @@ void inforegs(){
 void takeSnapshot(){
     saveRegisters(regsiterValues);
     snapshot = 1;
-<<<<<<< Updated upstream
-}
-=======
 }
 
 uint64_t xtou64(const char *str)
@@ -122,5 +119,3 @@ void printMem(uint64_t pointer, unsigned char * buf)
         // ncPrintHex(buf[i]);
     }
 }
-
->>>>>>> Stashed changes

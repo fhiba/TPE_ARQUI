@@ -2,13 +2,9 @@ GLOBAL cpuVendor
 GLOBAL getKey
 GLOBAL saveRegisters
 GLOBAL rtcGet
-<<<<<<< Updated upstream
-=======
 GLOBAL getDir
 GLOBAL inb
 GLOBAL outb
-
->>>>>>> Stashed changes
 section .text
 	
 cpuVendor:
