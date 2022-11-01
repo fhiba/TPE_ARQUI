@@ -1,3 +1,4 @@
+section .text
 GLOBAL sys_write
 GLOBAL sys_read
 GLOBAL sys_printMem
@@ -13,7 +14,7 @@ GLOBAL sys_divzero
 GLOBAL sys_opcode
 GLOBAL sys_recto
 GLOBAL sys_tron
-GLOABL sys_beep
+GLOBAL sys_beep
 
 sys_write:
     mov rax, 2
