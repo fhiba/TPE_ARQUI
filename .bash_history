@@ -190,3 +190,30 @@ make all
 make all
 make
 exit
+cd root
+gdb
+
+gdb
+gdb
+gdb
+gdb
+gdb
+gdb
+make clean
+make all
+make all
+make clean
+make all
+gdb
+gdb
+clear
+make clean
+make all
+make clean && make all
+clear
+gdb
+gdb
+gdb
+gdb
+gdb
+exit

@@ -1,21 +1,34 @@
 #include <tron.h>
 
-#define AMOUNT 2
-#define MAX_LENGTH 500
+#define AMOUNT 3
+#define MAX_LENGTH 1000
 #define P1_COLOR 0x00ffff
 #define P2_COLOR 0xffff00
+
+
+
+typedef struct rect
+{
+    int x;
+    int y;
+    int width;
+    int height;
+}rect;
+
+
+typedef struct playerPos{
+    int x;
+    int y;
+}playerPos;
 
 void getDirs();
 void initPos();
 void updatePos();
 int checkWinner();
 void refresh();
-int checkCollision();
+int checkCollision(playerPos head, playerPos outer_body);
+int rectOverlap(playerPos head, playerPos body);
 
-typedef struct playerPos{
-    int x;
-    int y;
-}playerPos;
 
 playerPos player2[MAX_LENGTH];
 playerPos player1[MAX_LENGTH];
@@ -33,7 +46,7 @@ directions p1_lastDir;
 directions p2_lastDir; 
 int player_Length = 0;
 
-char actions[10] = {-1};
+char actions[3];
 int action_idx = 0;
 
 void tronRun(){
@@ -52,14 +65,13 @@ void tronRun(){
             refresh();
             winner();
         */
-        sys_read(1, actions, 10);
-        for(action_idx = 0; action_idx < 10 || winner == 0; action_idx++) {
-            if(quit == 0) { 
+        sys_read(1, actions, 3);
+        for(action_idx = 0; action_idx < 3 && winner == 0 && quit == 0; action_idx++) {
+            if(actions[action_idx] != 0x7F) { 
                 player_Length++;
                 updatePos();
                 refresh();
                 winner = checkWinner();
-                sys_sleep(30);
             } else{
                 quit = 1;
             }
@@ -74,7 +86,8 @@ void tronRun(){
         sys_write(1, "won.", 4);
     }
     
-    //
+    sys_sleep(2000);
+    sys_clear();
 }
 
 void updatePos() {
@@ -188,10 +201,22 @@ void refresh() {
 }
 
 int checkWinner() {
+
+    if(player1[0].x > 1024 || player1[0].x < 0 || player1[0].y > 768 || player1[0].y < 0)
+        return 2;
+
+    if(player2[0].x > 1024 || player2[0].x < 0 || player2[0].y > 768 || player2[0].y < 0)
+        return 1;
+
+
     for(int i = 0; i < player_Length; i++) {
-        if(checkCollision(player1[0], player2[i]))
+        if(rectOverlap(player1[0], player2[i]))
             return 2;
-        if(checkCollision(player2[0], player1[i]))
+        if(player_Length > 2 && rectOverlap(player1[0], player1[i]))
+            return 2;
+        if(rectOverlap(player2[0], player1[i]))
+            return 1;
+        if(player_Length > 2 &&  rectOverlap(player2[0], player2[i]))
             return 1;
     }
     return 0;
@@ -199,24 +224,50 @@ int checkWinner() {
 
 
 int checkCollision(playerPos head, playerPos outer_body) {
-    playerPos head_left;
-    head_left.x = head.x - AMOUNT;
-    head_left.x = head.y - AMOUNT;
+    playerPos head_top;
+    head_top.x = head.x - AMOUNT;
+    head_top.x = head.y - AMOUNT;
     
-    playerPos head_right; 
-    head_right.x = head.x + AMOUNT;
-    head_right.x = head.y + AMOUNT;
+    playerPos head_bottom; 
+    head_bottom.x = head.x + AMOUNT;
+    head_bottom.x = head.y + AMOUNT;
 
-    playerPos body_left;
-    body_left.x = outer_body.x - AMOUNT;
-    body_left.x = outer_body.y - AMOUNT;
+    playerPos body_top;
+    body_top.x = outer_body.x - AMOUNT;
+    body_top.x = outer_body.y - AMOUNT;
     
     
-    playerPos body_right;
-    body_right.x = outer_body.x + AMOUNT;
-    body_right.x = outer_body.y + AMOUNT;
+    playerPos body_bottom;
+    body_bottom.x = outer_body.x + AMOUNT;
+    body_bottom.x = outer_body.y + AMOUNT;
 
-    if (head_left.x < body_right.x && head_right.x > body_left.x && head_left.y > body_right.y && head_right.y < body_left.y)
+    if (head_top.x < body_bottom.x && head_bottom.x > body_top.x && head_top.y < body_bottom.y && head_bottom.y > body_top.y)
         return 1;
     return 0;
+}
+
+
+int valueInRange(int value, int min, int max)
+{ return (value >= min) && (value <= max)? 1:0; }
+
+int rectOverlap(playerPos head, playerPos body) {
+    rect A;
+    A.x = head.x - AMOUNT;
+    A.x = head.y - AMOUNT;
+    A.height = AMOUNT * 2;
+    A.width = AMOUNT * 2;
+    
+    rect B;
+    B.x = body.x - AMOUNT;
+    B.x = body.y - AMOUNT;
+    B.height = AMOUNT * 2;
+    B.width = AMOUNT * 2;
+
+    int xOverlap = valueInRange(A.x, B.x, B.x + B.width) +
+                    valueInRange(B.x, A.x, A.x + A.width);
+
+    int yOverlap = valueInRange(A.y, B.y, B.y - B.height) +
+                    valueInRange(B.y, A.y, A.y - A.height);
+
+    return (xOverlap > 0) && (yOverlap>0);
 }
