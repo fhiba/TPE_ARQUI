@@ -1,4 +1,5 @@
 #include <tron.h>
+#include <math.h>
 
 #define AMOUNT 3
 #define MAX_LENGTH 1000
@@ -68,7 +69,9 @@ void tronRun(){
         sys_read(1, actions, 3);
         for(action_idx = 0; action_idx < 3 && winner == 0 && quit == 0; action_idx++) {
             if(actions[action_idx] != 0x7F) { 
-                player_Length++;
+                if(player_Length < MAX_LENGTH){
+                    player_Length++;
+                }
                 updatePos();
                 refresh();
                 winner = checkWinner();
@@ -85,7 +88,7 @@ void tronRun(){
         sys_write(1, winner == 1? "1 ":"2 ", 2);
         sys_write(1, "won.", 4);
     }
-    
+    sys_beep();
     sys_sleep(2000);
     sys_clear();
 }
@@ -96,8 +99,10 @@ void updatePos() {
     getDirs();
     int i = 1;
     for(; i < player_Length ; i++) {
-        player1[i] = player1[i - 1];
-        player2[i] = player2[i - 1];
+        player1[i].x = player1[i - 1].x;
+        player1[i].y = player1[i - 1].y;
+        player2[i].x = player2[i - 1].x;
+        player2[i].y = player2[i - 1].y;
     }
     switch(p1_Dir) {
         case UP:
@@ -241,7 +246,7 @@ int checkCollision(playerPos head, playerPos outer_body) {
     body_bottom.x = outer_body.x + AMOUNT;
     body_bottom.x = outer_body.y + AMOUNT;
 
-    if (head_top.x < body_bottom.x && head_bottom.x > body_top.x && head_top.y < body_bottom.y && head_bottom.y > body_top.y)
+    if ((head.x-outer_body.x)*(head.x-outer_body.x) + (head.y-outer_body.y)*(head.y-outer_body.y) < AMOUNT*AMOUNT);
         return 1;
     return 0;
 }
