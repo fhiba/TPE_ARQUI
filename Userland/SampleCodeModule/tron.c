@@ -256,19 +256,19 @@ void refresh() {
 int checkWinner() {
     switch(p1_Dir) {
         case UP:
-            if(last1.board_y != player1.board_y - 1 &&board_grid[player1.board_y - 1][player1.board_x].player != 0)
+            if(board_grid[player1.board_y - 1][player1.board_x].player != 0)
                 return 2;
             break;
         case DOWN:
-            if(last1.board_y != player1.board_y + 1 &&board_grid[player1.board_y + 1][player1.board_x].player != 0)
+            if(board_grid[player1.board_y + 1][player1.board_x].player != 0)
                 return 2;
             break;
         case RIGHT:
-            if(last1.board_x != player1.board_x - 1 &&board_grid[player1.board_y][player1.board_x - 1].player != 0)
+            if(board_grid[player1.board_y][player1.board_x + 1].player != 0)
                 return 2;
             break;
         case LEFT:
-            if(last1.board_x != player1.board_x + 1 &&board_grid[player1.board_y][player1.board_x + 1].player != 0)
+            if(board_grid[player1.board_y][player1.board_x - 1].player != 0)
                 return 2;
             break;
         default:
@@ -276,19 +276,19 @@ int checkWinner() {
     }
     switch(p2_Dir) {
         case UP:
-            if(last2.board_y != player2.board_y - 1 && board_grid[player2.board_y - 1][player2.board_x].player != 0)
+            if(board_grid[player2.board_y - 1][player2.board_x].player != 0)
                 return 1;
             break;
         case DOWN:
-            if(last2.board_y != player2.board_y + 1 && board_grid[player2.board_y + 1][player2.board_x].player != 0)
+            if(board_grid[player2.board_y + 1][player2.board_x].player != 0)
                 return 1;
             break;
         case LEFT:
-            if(last2.board_x != player2.board_x - 1 && board_grid[player2.board_y][player2.board_x - 1].player != 0)
+            if(board_grid[player2.board_y][player2.board_x - 1].player != 0)
                 return 1;
             break;
         case RIGHT:
-            if(last2.board_x != player2.board_x + 1 && board_grid[player2.board_y][player2.board_x + 1].player != 0)
+            if(board_grid[player2.board_y][player2.board_x + 1].player != 0)
                 return 1;
             break;
         default:
