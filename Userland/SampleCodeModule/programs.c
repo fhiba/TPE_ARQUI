@@ -95,8 +95,8 @@ void infoRegs(){
 
 
 void memPrint(){
-    printf("Ingrese una direccion en hexa de 8 caracteres\n");
-    printf("Ej: 12345678\n");
+    printf("Enter a hexadecimal address of 8 characters at max\n");
+    printf("Example: 0000000F\n");
     char buffer[90] = {0};
     int idx = 0;
     do{
@@ -117,7 +117,7 @@ void memPrint(){
     int ok = 1;
     uint64_t dir = stringToUint64(buffer,&ok);
     if(!ok || idx > 9){
-        printf("Direccion invalida, tremendo bot\n");
+        printerr("Invalid adress\n");
         return;
     }
     unsigned char memStr[20] = {0};
