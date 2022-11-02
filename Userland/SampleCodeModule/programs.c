@@ -4,7 +4,23 @@
 #include <tron.h>
 
 void help(){
-    printf("Available Commands: \n-DATE:\n\n| SHOWS THE CURRENT DATE AND TIME |\n\n-RESIZE\n\n| CHANGE THE SIZE OF THE FONT |\n\n-CLEAR\n\n| CLEARS THE SCREEN\n\n-TRON\n\n| PLAY A TWO-PLAYER GAME WITH A FRIEND |\n\n-DIVZERO\n\n| SEE WHAT THE DIVZERO EXCEPTION LOOKS LIKE |\n\n-OPCODE\n\n| SEE WHAT THE OPCODE EXCEPTION LOOKS LIKE |\n\n-INFOREG\n\n| AFTER TAKING A SNAPSHOT WITH = SEE WHAT VALUES THE REGISTERS HOLD! |\n");
+    printFirst("Available Commands: \n");
+    printFirst("TRON");
+    printf(": Play a two player game with a friend\n");
+    printFirst("DATE");
+    printf(": Show the current date and time\n");
+    printFirst("RESIZE");
+    printf(": Change the size of the font\n");
+    printFirst("DIVZERO");
+    printf(": See what the divzero exception looks like\n");
+    printFirst("OPCODE");
+    printf(": See what the opcode exception loooks like\n");
+    printFirst("INFOREG");
+    printf(": After taking a snapshot with = see what values the registers hold!\n");
+    printFirst("MEMPRINT");
+    printf(": Dumps 20 bytes of memory from given pointer\n");
+    printFirst("CLEAR");
+    printf(": Clean the screen\n");
 }
 
 void clearProg(){
