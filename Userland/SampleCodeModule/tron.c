@@ -1,37 +1,52 @@
 #include <tron.h>
 
-#define AMOUNT 3
+#define AMOUNT 2
 #define MAX_LENGTH 1000
 #define P1_COLOR 0x00ffff
 #define P2_COLOR 0xffff00
 
+#define BOARD_WIDTH 300
+#define BOARD_HEIGHT 300
+
+#define PLAYER1 1
+#define PLAYER2 2
 
 
-typedef struct rect
+#define BOARD_TOPX (int)1024/2 - BOARD_WIDTH / 2 * AMOUNT
+#define BOARD_TOPY (int)768/2 - BOARD_HEIGHT / 2 * AMOUNT
+#define BOARD_BOTTOMX (int)1024/2 + BOARD_WIDTH / 2
+#define BOARD_BOTTOMY (int)768/2 + BOARD_HEIGHT / 2
+
+typedef struct BOARD_INFO
 {
     int x;
     int y;
-    int width;
-    int height;
-}rect;
+    int player;
+}board_position;
+
+
+board_position board_grid[BOARD_HEIGHT][BOARD_WIDTH];
 
 
 typedef struct playerPos{
-    int x;
-    int y;
+    unsigned int board_x;
+    unsigned int board_y;
 }playerPos;
 
 void getDirs();
-void initPos();
+void board_init();
 void updatePos();
 int checkWinner();
 void refresh();
-int checkCollision(playerPos head, playerPos outer_body);
-int rectOverlap(playerPos head, playerPos body);
+int checkCollision(board_position, int player);
+void updateGrid();
 
 
-playerPos player2[MAX_LENGTH];
-playerPos player1[MAX_LENGTH];
+playerPos player2;
+playerPos player1;
+
+playerPos last1;
+playerPos last2;
 
 typedef enum directions{
     UP,
@@ -44,7 +59,6 @@ directions p1_Dir;
 directions p2_Dir; 
 directions p1_lastDir;
 directions p2_lastDir; 
-int player_Length = 0;
 
 char actions[3];
 int action_idx = 0;
@@ -52,26 +66,17 @@ int action_idx = 0;
 void tronRun(){
     sys_clear();
     
-    initPos(); //setea los bordes de la cancha (NO DEFINIDO TODAVIA)
+    board_init(); //setea los bordes de la cancha (NO DEFINIDO TODAVIA)
     int winner = 0; //luego de mover va a una funcion que chequea por colision, si hubo unca carga 1 si gano 1 o 2 si gano 2.
     int quit = 0;
+    //sys_sleep(5000);
     do{
-        //sys_read(1,&c,1);
-        /*
-            opt1- last de cada uno
-            opt2- 
-            
-            updatePos();
-            refresh();
-            winner();
-        */
         sys_read(1, actions, 3);
         for(action_idx = 0; action_idx < 3 && winner == 0 && quit == 0; action_idx++) {
             if(actions[action_idx] != 0x7F) { 
-                player_Length++;
+                winner = checkWinner();
                 updatePos();
                 refresh();
-                winner = checkWinner();
             } else{
                 quit = 1;
             }
@@ -85,7 +90,7 @@ void tronRun(){
         sys_write(1, winner == 1? "1 ":"2 ", 2);
         sys_write(1, "won.", 4);
     }
-    
+    sys_beep();
     sys_sleep(2000);
     sys_clear();
 }
@@ -93,60 +98,100 @@ void tronRun(){
 void updatePos() {
     p1_lastDir = p1_Dir;
     p2_lastDir = p2_Dir;
+    last1.board_x = player1.board_x;
+    last1.board_y = player1.board_y;
+    last2.board_x = player2.board_x;
+    last2.board_y = player2.board_y;
+    
     getDirs();
-    int i = 1;
-    for(; i < player_Length ; i++) {
-        player1[i] = player1[i - 1];
-        player2[i] = player2[i - 1];
-    }
     switch(p1_Dir) {
         case UP:
             if(p1_lastDir != DOWN)
-                player1[0].y -= AMOUNT;
+                player1.board_y --;
             break;
         case DOWN:
             if(p1_lastDir != UP)
-                player1[0].y += AMOUNT;
+                player1.board_y++;
             break;
         case LEFT:
             if(p1_lastDir != RIGHT)
-                player1[0].x -= AMOUNT;
+                player1.board_x--;
             break;
         case RIGHT:
             if(p1_lastDir != LEFT)
-                player1[0].x += AMOUNT;
+                player1.board_x++;
             break;
     }
     switch(p2_Dir) {
         case UP:
             if(p2_lastDir != DOWN)
-                player2[0].y -= AMOUNT;
+                player2.board_y --;
             break;
         case DOWN:
             if(p2_lastDir != UP)
-                player2[0].y += AMOUNT;
+                player2.board_y++;
             break;
         case LEFT:
             if(p2_lastDir != RIGHT)
-                player2[0].x -= AMOUNT;
+                player2.board_x--;
             break;
         case RIGHT:
             if(p2_lastDir != LEFT)
-                player2[0].x += AMOUNT;
+                player2.board_x++;
             break;
     }
+     
+    updateGrid();
+}
+
+void updateGrid() {
+    board_grid[player1.board_y][player1.board_x].player = PLAYER1;
+    board_grid[player2.board_y][player2.board_x].player = PLAYER2;
 }
 
 
-void initPos() {
-    player1[0].x = 1024/4;
-    player1[0].y = 768/2;
+void board_init() {
+    
+    //lleno los valoresde los pixeles
+    for(int board_y = 0; board_y < BOARD_WIDTH; board_y++) {
+        for(int board_x = 0; board_x < BOARD_HEIGHT; board_x++) {
+            board_grid[board_y][board_x].x = BOARD_TOPX + AMOUNT * board_x;
+            board_grid[board_y][board_x].y = BOARD_TOPY + AMOUNT * board_y; 
+            board_grid[board_y][board_x].player =0;
+        }
+    }
 
-    player2[0].x = 3*1024/4;
-    player2[0].y = 768/2;
+    for(int board_x = 0; board_x < BOARD_WIDTH; board_x++) {
+        board_grid[BOARD_HEIGHT-1][board_x].player = -1;
+        board_grid[0][board_x].player = -1;
+        sys_recto(board_grid[0][board_x].x, board_grid[0][board_x].y, 0XFFFFFF, AMOUNT, AMOUNT);
+        sys_recto(board_grid[BOARD_HEIGHT-1][board_x].x, board_grid[BOARD_HEIGHT-1][board_x].y, 0XFFFFFF, AMOUNT, AMOUNT);
+    }
 
-    p1_Dir = UP;
-    p2_Dir = DOWN;
+    for(int board_y = 0; board_y < BOARD_HEIGHT; board_y++) {
+        board_grid[board_y][0].player = -1;
+        board_grid[board_y][BOARD_WIDTH-1].player = -1;
+        sys_recto(board_grid[board_y][0].x, board_grid[board_y][0].y, 0XFFFFFF, AMOUNT, AMOUNT);
+        sys_recto(board_grid[board_y][BOARD_WIDTH-1].x, board_grid[board_y][BOARD_WIDTH-1].y, 0XFFFFFF, AMOUNT, AMOUNT);
+    }
+
+    // player1[0].x = 1024/4;
+    // player1[0].y = 768/2;
+
+    // player2[0].x = 3*1024/4;
+    // player2[0].y = 768/2;
+    player1.board_x = BOARD_WIDTH/4;
+    player1.board_y = BOARD_HEIGHT/2;
+
+    player2.board_x = BOARD_WIDTH*3/4;
+    player2.board_y = BOARD_HEIGHT/2;
+
+    updateGrid();
+
+    refresh();
+
+    p1_Dir = RIGHT;
+    p2_Dir = LEFT;
 }
 
 
@@ -192,82 +237,111 @@ void getDirs() {
 
 
 void refresh() {
-    int i = 0;
-    while (i < player_Length) {
-        sys_recto(player1[i].x - AMOUNT, player1[i].y - AMOUNT,P1_COLOR , AMOUNT, AMOUNT);
-        sys_recto(player2[i].x - AMOUNT, player2[i].y - AMOUNT,P2_COLOR , AMOUNT, AMOUNT);
-        i++;
-    }
+    sys_recto(board_grid[player1.board_y][player1.board_x].x, board_grid[player1.board_y][player1.board_x].y, P1_COLOR, AMOUNT, AMOUNT);
+    sys_recto(board_grid[player2.board_y][player2.board_x].x, board_grid[player2.board_y][player2.board_x].y, P2_COLOR, AMOUNT, AMOUNT);
 }
 
 int checkWinner() {
-
-    if(player1[0].x > 1024 || player1[0].x < 0 || player1[0].y > 768 || player1[0].y < 0)
+    //player1
+    if(last1.board_y != player1.board_y - 1 && board_grid[player1.board_y - 1][player1.board_x].player != 0)
+        return 2;
+    if( last1.board_y != player1.board_y + 1 && board_grid[player1.board_y + 1][player1.board_x].player != 0)
+        return 2;
+    if( last1.board_x != player1.board_x + 1 && board_grid[player1.board_y][player1.board_x + 1].player != 0)
+        return 2;
+    if(last1.board_x != player1.board_x - 1 && board_grid[player1.board_y][player1.board_x - 1].player != 0)
         return 2;
 
-    if(player2[0].x > 1024 || player2[0].x < 0 || player2[0].y > 768 || player2[0].y < 0)
+
+    //player2
+    if(last2.board_y != player2.board_y - 1 && board_grid[player2.board_y - 1][player2.board_x].player != 0)
         return 1;
-
-
-    for(int i = 0; i < player_Length; i++) {
-        if(rectOverlap(player1[0], player2[i]))
-            return 2;
-        if(player_Length > 2 && rectOverlap(player1[0], player1[i]))
-            return 2;
-        if(rectOverlap(player2[0], player1[i]))
-            return 1;
-        if(player_Length > 2 &&  rectOverlap(player2[0], player2[i]))
-            return 1;
-    }
-    return 0;
-}
-
-
-int checkCollision(playerPos head, playerPos outer_body) {
-    playerPos head_top;
-    head_top.x = head.x - AMOUNT;
-    head_top.x = head.y - AMOUNT;
-    
-    playerPos head_bottom; 
-    head_bottom.x = head.x + AMOUNT;
-    head_bottom.x = head.y + AMOUNT;
-
-    playerPos body_top;
-    body_top.x = outer_body.x - AMOUNT;
-    body_top.x = outer_body.y - AMOUNT;
-    
-    
-    playerPos body_bottom;
-    body_bottom.x = outer_body.x + AMOUNT;
-    body_bottom.x = outer_body.y + AMOUNT;
-
-    if (head_top.x < body_bottom.x && head_bottom.x > body_top.x && head_top.y < body_bottom.y && head_bottom.y > body_top.y)
+    if( last2.board_y != player2.board_y + 1 && board_grid[player2.board_y + 1][player2.board_x].player != 0)
+        return 1;
+    if( last2.board_x != player2.board_x + 1 && board_grid[player2.board_y][player2.board_x + 1].player != 0)
+        return 1;
+    if(last2.board_x != player2.board_x - 1 && board_grid[player2.board_y][player2.board_x - 1].player != 0)
         return 1;
     return 0;
 }
 
 
-int valueInRange(int value, int min, int max)
-{ return (value >= min) && (value <= max)? 1:0; }
 
-int rectOverlap(playerPos head, playerPos body) {
-    rect A;
-    A.x = head.x - AMOUNT;
-    A.x = head.y - AMOUNT;
-    A.height = AMOUNT * 2;
-    A.width = AMOUNT * 2;
     
-    rect B;
-    B.x = body.x - AMOUNT;
-    B.x = body.y - AMOUNT;
-    B.height = AMOUNT * 2;
-    B.width = AMOUNT * 2;
 
-    int xOverlap = valueInRange(A.x, B.x, B.x + B.width) +
-                    valueInRange(B.x, A.x, A.x + A.width);
+//     // if(i > AMOUNT && checkCollision(player2[0], player2[i]) != 0)
+//     //     return 2;
+//     // if(checkCollision(player1[0]))
+//     //     return 2;
 
-    int yOverlap = valueInRange(A.y, B.y, B.y - B.height) +
-                    valueInRange(B.y, A.y, A.y - A.height);
+//     // if(checkCollision(player2[0]))
+//     //     return 1;
 
-    return (xOverlap > 0) && (yOverlap>0);
-}
+//     return 0;
+// }
+
+
+// int checkCollision(playerPos head, playerPos outer_body) {
+//     // playerPos head_top;
+//     // head_top.x = head.x - AMOUNT;
+//     // head_top.x = head.y - AMOUNT;
+    
+//     // playerPos head_bottom; 
+//     // head_bottom.x = head.x + AMOUNT;
+//     // head_bottom.x = head.y + AMOUNT;
+
+//     // playerPos body_top;
+//     // body_top.x = outer_body.x - AMOUNT;
+//     // body_top.x = outer_body.y - AMOUNT;
+    
+    
+//     // playerPos body_bottom;
+//     // body_bottom.x = outer_body.x + AMOUNT;
+//     // body_bottom.x = outer_body.y + AMOUNT;
+//     // long dist_x = (head.x - outer_body.x);
+//     // long dist_y = (head.y - outer_body.y);   
+//     // long dist_x2 = dist_x * dist_x;
+//     // long dist_y2 = dist_y * dist_y;
+//     // if(dist_x2 + dist_y2 < AMOUNT * AMOUNT)
+//     if(sys_isBlackPixel(head.x, head.y) == 0)
+//         return 1;
+//     //if(head.x == outer_body.x && head.y == outer_body.y)
+//       //  return 1;
+
+
+//     // for (int i = - AMOUNT; i <= AMOUNT; i++) {
+//     //     for(int j = - AMOUNT; j <= AMOUNT; j++) {
+//     //         if(head.x + i >= 0 && head.x + i <= 1024 && head.y + j >= 0 && head.y + j <= 768) {
+//     //             if (sys_isBlackPixel(head.x + i, head.y + j) == 0)
+//     //                 return 1;
+//     //         }
+//     //     }
+//     // }
+//     return 0;
+// }
+
+
+// int valueInRange(int value, int min, int max)
+// { return (value >= min) && (value <= max)? 1:0; }
+
+// int rectOverlap(playerPos head, playerPos body) {
+//     rect A;
+//     A.x = head.x - AMOUNT;
+//     A.x = head.y - AMOUNT;
+//     A.height = AMOUNT * 2;
+//     A.width = AMOUNT * 2;
+    
+//     rect B;
+//     B.x = body.x - AMOUNT;
+//     B.x = body.y - AMOUNT;
+//     B.height = AMOUNT * 2;
+//     B.width = AMOUNT * 2;
+
+//     int xOverlap = valueInRange(A.x, B.x, B.x + B.width) +
+//                     valueInRange(B.x, A.x, A.x + A.width);
+
+//     int yOverlap = valueInRange(A.y, B.y, B.y - B.height) +
+//                     valueInRange(B.y, A.y, A.y - A.height);
+
+//     return (xOverlap > 0) && (yOverlap>0);
+// }

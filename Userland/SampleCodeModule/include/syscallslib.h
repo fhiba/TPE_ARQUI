@@ -19,4 +19,5 @@ void sys_divzero();
 void sys_recto(int x, int y,int color, unsigned char width, unsigned char height);
 void sys_beep();
 void sys_printBase(uint64_t value, uint32_t base);
+int sys_isBlackPixel(unsigned int x, unsigned int y);
 #endif

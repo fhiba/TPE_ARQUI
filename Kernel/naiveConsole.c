@@ -138,6 +138,12 @@ void fillRect(int x, int y, int color, unsigned char w, unsigned char h){
 	
 }
 
+int isBlackPixel(unsigned int x, unsigned int y) {
+	unsigned where = x*screenInfo->bpp/8 + y*screenInfo->pitch;
+	if(currentVideo[where] == 0 && currentVideo[where+1] == 0 && currentVideo[where+2] == 0)
+		return 1;
+	return 0;
+}
 void ncPrint(const char * string)
  {
  	int i;
