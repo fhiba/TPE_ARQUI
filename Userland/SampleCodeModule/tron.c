@@ -60,7 +60,7 @@ directions p2_Dir;
 directions p1_lastDir;
 directions p2_lastDir; 
 
-char actions[3];
+char actions[4];
 int action_idx = 0;
 int winner;
 
@@ -73,8 +73,8 @@ void tronRun(){
     //sys_sleep(5000);
     sys_write(1,"Press backspace to quit the game!",33);
     do{
-        sys_read(1, actions, 3);
-        for(action_idx = 0; action_idx < 3 && winner == 0 && quit == 0; action_idx++) {
+        sys_read(1, actions, 4);
+        for(action_idx = 0; action_idx < 4 && winner == 0 && quit == 0; action_idx++) {
             if(actions[action_idx] != 0x7F) { 
                 updatePos();
                 refresh();
@@ -90,6 +90,8 @@ void tronRun(){
         sys_write(1, "Player ", 7);
         sys_write(1, winner == 1? "1 ":"2 ", 2);
         sys_write(1, "won.", 4);
+    }else{
+        sys_write(2,"NO ONE WON!!1!",14);
     }
     // sys_beep();
     sys_write(3,"\n\n\n\nPress P to play again or press Q to go back to the shell",60);
