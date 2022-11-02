@@ -15,7 +15,13 @@ void shell(void){
                 
             }
             else if(buffer[idx] != 0x7F){
-                sys_write(1, buffer + idx, 1);
+                if(buffer[idx] == '='){
+                    printFirst("\nSnapshot Tomado\n");
+                    break;
+                    // sys_write(1,"\nSnapshot Tomado\n",18);
+                }else{   
+                    sys_write(1, buffer + idx, 1);
+                }
                 idx++;
             }
             else if (idx > 0) {
@@ -30,6 +36,12 @@ void shell(void){
 }
 
 void getProgram(char * buffer){
+    for (size_t i = 0; buffer[i] != 0; i++)
+    {
+        if(buffer[i] == '=')
+            return;
+    }
+    
     if(strcmp(buffer,"HELP"))
         help();
     else if(strcmp(buffer,"DATE"))
