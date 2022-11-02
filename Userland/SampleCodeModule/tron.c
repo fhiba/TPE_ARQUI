@@ -60,21 +60,22 @@ directions p2_Dir;
 directions p1_lastDir;
 directions p2_lastDir; 
 
-char actions[3];
+char actions[4];
 int action_idx = 0;
+int winner;
 
 void tronRun(){
     sys_clear();
     
     board_init(); //setea los bordes de la cancha (NO DEFINIDO TODAVIA)
-    int winner = 0; //luego de mover va a una funcion que chequea por colision, si hubo unca carga 1 si gano 1 o 2 si gano 2.
+    winner = 0; //luego de mover va a una funcion que chequea por colision, si hubo unca carga 1 si gano 1 o 2 si gano 2.
     int quit = 0;
     //sys_sleep(5000);
+    sys_write(1,"Press backspace to quit the game!",33);
     do{
-        sys_read(1, actions, 3);
-        for(action_idx = 0; action_idx < 3 && winner == 0 && quit == 0; action_idx++) {
+        sys_read(1, actions, 4);
+        for(action_idx = 0; action_idx < 4 && winner == 0 && quit == 0; action_idx++) {
             if(actions[action_idx] != 0x7F) { 
-                winner = checkWinner();
                 updatePos();
                 refresh();
             } else{
@@ -89,9 +90,19 @@ void tronRun(){
         sys_write(1, "Player ", 7);
         sys_write(1, winner == 1? "1 ":"2 ", 2);
         sys_write(1, "won.", 4);
+    }else{
+        sys_write(2,"NO ONE WON!!1!",14);
     }
-    sys_beep();
-    sys_sleep(2000);
+    // sys_beep();
+    sys_write(3,"\n\n\n\nPress P to play again or press Q to go back to the shell",60);
+    char c = 0;
+    do{
+        sys_read(1,&c,1);
+    }while(c == 0);
+    if(c == 'P'){
+        tronRun();
+    }
+    
     sys_clear();
 }
 
@@ -104,6 +115,9 @@ void updatePos() {
     last2.board_y = player2.board_y;
     
     getDirs();
+    winner = checkWinner();
+    if(winner != 0)
+        return;
     switch(p1_Dir) {
         case UP:
             if(p1_lastDir != DOWN)
@@ -242,26 +256,46 @@ void refresh() {
 }
 
 int checkWinner() {
-    //player1
-    if(last1.board_y != player1.board_y - 1 && board_grid[player1.board_y - 1][player1.board_x].player != 0)
-        return 2;
-    if( last1.board_y != player1.board_y + 1 && board_grid[player1.board_y + 1][player1.board_x].player != 0)
-        return 2;
-    if( last1.board_x != player1.board_x + 1 && board_grid[player1.board_y][player1.board_x + 1].player != 0)
-        return 2;
-    if(last1.board_x != player1.board_x - 1 && board_grid[player1.board_y][player1.board_x - 1].player != 0)
-        return 2;
-
-
-    //player2
-    if(last2.board_y != player2.board_y - 1 && board_grid[player2.board_y - 1][player2.board_x].player != 0)
-        return 1;
-    if( last2.board_y != player2.board_y + 1 && board_grid[player2.board_y + 1][player2.board_x].player != 0)
-        return 1;
-    if( last2.board_x != player2.board_x + 1 && board_grid[player2.board_y][player2.board_x + 1].player != 0)
-        return 1;
-    if(last2.board_x != player2.board_x - 1 && board_grid[player2.board_y][player2.board_x - 1].player != 0)
-        return 1;
+    switch(p1_Dir) {
+        case UP:
+            if(board_grid[player1.board_y - 1][player1.board_x].player != 0)
+                return 2;
+            break;
+        case DOWN:
+            if(board_grid[player1.board_y + 1][player1.board_x].player != 0)
+                return 2;
+            break;
+        case RIGHT:
+            if(board_grid[player1.board_y][player1.board_x + 1].player != 0)
+                return 2;
+            break;
+        case LEFT:
+            if(board_grid[player1.board_y][player1.board_x - 1].player != 0)
+                return 2;
+            break;
+        default:
+            break;
+    }
+    switch(p2_Dir) {
+        case UP:
+            if(board_grid[player2.board_y - 1][player2.board_x].player != 0)
+                return 1;
+            break;
+        case DOWN:
+            if(board_grid[player2.board_y + 1][player2.board_x].player != 0)
+                return 1;
+            break;
+        case LEFT:
+            if(board_grid[player2.board_y][player2.board_x - 1].player != 0)
+                return 1;
+            break;
+        case RIGHT:
+            if(board_grid[player2.board_y][player2.board_x + 1].player != 0)
+                return 1;
+            break;
+        default:
+            break;
+    }
     return 0;
 }
 
