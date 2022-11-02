@@ -67,10 +67,9 @@ int winner;
 void tronRun(){
     sys_clear();
     
-    board_init(); //setea los bordes de la cancha (NO DEFINIDO TODAVIA)
+    board_init(); 
     winner = 0; //luego de mover va a una funcion que chequea por colision, si hubo unca carga 1 si gano 1 o 2 si gano 2.
     int quit = 0;
-    //sys_sleep(5000);
     sys_write(1,"Press backspace to quit the game!",33);
     do{
         sys_read(1, actions, 4);
@@ -189,11 +188,6 @@ void board_init() {
         sys_recto(board_grid[board_y][BOARD_WIDTH-1].x, board_grid[board_y][BOARD_WIDTH-1].y, 0XFFFFFF, AMOUNT, AMOUNT);
     }
 
-    // player1[0].x = 1024/4;
-    // player1[0].y = 768/2;
-
-    // player2[0].x = 3*1024/4;
-    // player2[0].y = 768/2;
     player1.board_x = BOARD_WIDTH/4;
     player1.board_y = BOARD_HEIGHT/2;
 
@@ -298,84 +292,3 @@ int checkWinner() {
     }
     return 0;
 }
-
-
-
-    
-
-//     // if(i > AMOUNT && checkCollision(player2[0], player2[i]) != 0)
-//     //     return 2;
-//     // if(checkCollision(player1[0]))
-//     //     return 2;
-
-//     // if(checkCollision(player2[0]))
-//     //     return 1;
-
-//     return 0;
-// }
-
-
-// int checkCollision(playerPos head, playerPos outer_body) {
-//     // playerPos head_top;
-//     // head_top.x = head.x - AMOUNT;
-//     // head_top.x = head.y - AMOUNT;
-    
-//     // playerPos head_bottom; 
-//     // head_bottom.x = head.x + AMOUNT;
-//     // head_bottom.x = head.y + AMOUNT;
-
-//     // playerPos body_top;
-//     // body_top.x = outer_body.x - AMOUNT;
-//     // body_top.x = outer_body.y - AMOUNT;
-    
-    
-//     // playerPos body_bottom;
-//     // body_bottom.x = outer_body.x + AMOUNT;
-//     // body_bottom.x = outer_body.y + AMOUNT;
-//     // long dist_x = (head.x - outer_body.x);
-//     // long dist_y = (head.y - outer_body.y);   
-//     // long dist_x2 = dist_x * dist_x;
-//     // long dist_y2 = dist_y * dist_y;
-//     // if(dist_x2 + dist_y2 < AMOUNT * AMOUNT)
-//     if(sys_isBlackPixel(head.x, head.y) == 0)
-//         return 1;
-//     //if(head.x == outer_body.x && head.y == outer_body.y)
-//       //  return 1;
-
-
-//     // for (int i = - AMOUNT; i <= AMOUNT; i++) {
-//     //     for(int j = - AMOUNT; j <= AMOUNT; j++) {
-//     //         if(head.x + i >= 0 && head.x + i <= 1024 && head.y + j >= 0 && head.y + j <= 768) {
-//     //             if (sys_isBlackPixel(head.x + i, head.y + j) == 0)
-//     //                 return 1;
-//     //         }
-//     //     }
-//     // }
-//     return 0;
-// }
-
-
-// int valueInRange(int value, int min, int max)
-// { return (value >= min) && (value <= max)? 1:0; }
-
-// int rectOverlap(playerPos head, playerPos body) {
-//     rect A;
-//     A.x = head.x - AMOUNT;
-//     A.x = head.y - AMOUNT;
-//     A.height = AMOUNT * 2;
-//     A.width = AMOUNT * 2;
-    
-//     rect B;
-//     B.x = body.x - AMOUNT;
-//     B.x = body.y - AMOUNT;
-//     B.height = AMOUNT * 2;
-//     B.width = AMOUNT * 2;
-
-//     int xOverlap = valueInRange(A.x, B.x, B.x + B.width) +
-//                     valueInRange(B.x, A.x, A.x + A.width);
-
-//     int yOverlap = valueInRange(A.y, B.y, B.y - B.height) +
-//                     valueInRange(B.y, A.y, A.y - A.height);
-
-//     return (xOverlap > 0) && (yOverlap>0);
-// }

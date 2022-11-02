@@ -18,7 +18,6 @@ void shell(void){
                 if(buffer[idx] == '='){
                     printFirst("\nSnapshot Tomado\n");
                     break;
-                    // sys_write(1,"\nSnapshot Tomado\n",18);
                 }else{   
                     sys_write(1, buffer + idx, 1);
                 }
@@ -60,7 +59,7 @@ void getProgram(char * buffer){
         sys_divzero();
     else if(strcmp(buffer, "OPCODE"))
         sys_opcode();
-    else if(strcmp(buffer,"TEST"))
+    else if(strcmp(buffer,"CAPOS"))
         test();
     else if(strcmp(buffer,"MEMPRINT"))
         memPrint();

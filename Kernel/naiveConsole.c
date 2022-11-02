@@ -13,10 +13,6 @@ static uint16_t size;
 
 
 static char buffer[64] = { '0' };
-// uint8_t * const video = screenInfo->framebuffer;
-// const uint32_t width = screenInfo->width;
-// const uint32_t height = screenInfo->height;
-
 pos currentPos;
 
 void startPos(){
@@ -65,9 +61,6 @@ void drawcharAt(unsigned char c, int x, int y, int fgcolor, int bgcolor) {
 
 void drawChar(unsigned char c,int fgcolor, int bgcolor){
 
-
-	//primero tenes que fijarte si entra el caracter en la pantalla
-		// primero si entra en el renglon
 
 	if ( currentPos.x + 8 * size <= width && currentPos.y + 16 * size <= height) {
 		drawcharAt ( c, currentPos.x, currentPos.y, fgcolor, bgcolor );
