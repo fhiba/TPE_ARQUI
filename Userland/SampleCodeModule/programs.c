@@ -58,18 +58,9 @@ void test(){
 }
 
 void date(){
-    int values[5] = {7,8,9,4,2}; //En orden: D, M, Y, H, M
-    // char buffer[3] = {}; // Cada numero de la fecha no va a tener más de dos digitos, 3 contando el cero null terminated
+    int values[5] = {7,8,9,4,2};
     for (int i=0;i<5;i++){
         char num = getDateValues(values[i]);
-        // cUintToBase(num,buffer,16);
-        // if (num<0xA){
-        //     // Si el numero es de un solo digito, lo muevo un lugar a la derecha y a la izquierda le pongo un cero
-        //     char aux = buffer[0];
-        //     buffer[0]='0';
-        //     buffer[1]=aux;
-        // }
-        // buffer[2]=0; // Al string del numero le agrego un cero null terminated asi puedo usar strcpy
         sys_printBase(num, 16);
         if (i<2){
             printf("/");
@@ -84,7 +75,7 @@ void date(){
 
 void tron(){
     clear();
-    printf("Welcome to tron!\n The game will start soon! \nPlayer 1 moves with WASD and is color blue\nPlayer 2 moves IJKL and is color red\nGOOD LUCK, HAVE FUN!\n");
+    printf("Welcome to tron!\nThe game will start soon! \nPlayer 1 moves with WASD and is color blue\nPlayer 2 moves IJKL and is color red\nGOOD LUCK, HAVE FUN!\n");
     sys_sleep(2500);
     tronRun();
 }
