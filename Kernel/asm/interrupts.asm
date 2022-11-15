@@ -27,6 +27,8 @@ EXTERN exceptionDispatcher
 EXTERN sys_dispatcher
 EXTERN takeSnapshot
 EXTERN inforegs
+GLOBAL registersSaved
+GLOBAL registers
 ; EXTERN saveBackup
 ; EXTERN ncPrintReg
 ; EXTERN rebootTerm
@@ -91,7 +93,6 @@ SECTION .text
 	; signal pic EOI (End of Interrupt)
 	mov al, 20h
 	out 20h, al
-
 	popState
 	sti
 	iretq
@@ -99,6 +100,7 @@ SECTION .text
 
 %macro exceptionHandler 1
     pushState
+	saveRegisters
     mov rdi, %1 ; pasaje de parametro
     call exceptionDispatcher
 
@@ -166,6 +168,39 @@ _sti:
 	sti
 	ret
 
+%macro saveRegisters 0
+	cli
+    mov [registers+1*8], rax
+    mov [registers+2*8], rbx
+    mov [registers+3*8], rcx
+    mov [registers+4*8], rdx
+    mov [registers+5*8], rsi
+    mov [registers+6*8], rdi
+    mov [registers+7*8], rbp
+
+    ; rsp
+    mov rax, rsp
+    add rax, 120
+    mov [registers+8*8], rax
+
+    mov [registers+9*8], r8
+    mov [registers+10*8], r9
+    mov [registers+11*8], r10
+    mov [registers+12*8], r11
+    mov [registers+13*8], r12
+    mov [registers+14*8], r13
+    mov [registers+15*8], r14
+    mov [registers+16*8], r15
+
+    ; rip
+    mov rax, [rsp+15*8]
+    mov [registers], rax
+
+    mov byte [registersSaved], 1
+
+    sti
+%endmacro
+
 picMasterMask:
 	push rbp
     mov rbp, rsp
@@ -228,7 +263,7 @@ divzero:
 
 opcode:
     ud2
-	call takeSnapshot
+	saveRegisters 
 	call inforegs
     ret
 haltcpu:
@@ -239,7 +274,7 @@ haltcpu:
 section .rodata
 	; dd = 4 byte value. Hacemos un "array" donde cada posicion es de 4 bytes (cada caracter ocupa 1 byte, de esta forma todos terminan en 0)
 	regsNames dd "rdi", "rsi", "rax", "rbx", "rcx", "rdx", "r8 ", "r9 ", "r10", "r11", "r12", "r13", "r14", "r15", "rip", "rsp", "rbp" ; 17 registros
-
 SECTION .bss
-	aux resq 1
-	registerArray resq 17
+    registersSaved resb 1
+    aux resq 1
+    registers resq 17

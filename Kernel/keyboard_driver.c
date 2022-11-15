@@ -14,6 +14,9 @@ unsigned char readKey() {
     
     if(last == key[idx - 1] || key[idx-1] == 0)
         return 0;
+    // if(last == 0x0b10011101){
+    //     saveRegisters();
+    // }
     unsigned char last = key[idx-1];
     key[idx - 1] = 0;
     return last;

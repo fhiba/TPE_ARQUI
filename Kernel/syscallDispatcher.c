@@ -23,7 +23,7 @@ int sys_dispatcher(int arg0, int arg1, int arg2, int arg3,int arg4){
             clear();
             break;
         case 4:
-            takeSnapshot();
+            // takeSnapshot();
             break;
         case 5:
             inforegs();

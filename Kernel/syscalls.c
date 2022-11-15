@@ -6,8 +6,13 @@
 #define STDIN 1
 #define RETVALUE -1
 
+static char snapshot = 0;
+static const char* registerNames[17] = {
+    "RIP", "RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8 ", "R9 ", "R10", "R11", "R12", "R13", "R14", "R15"
+};
 
-
+extern uint64_t registers[17];
+extern char registersSaved;
 
 void write(int fd, char*buffer, size_t count){
     int color = 0;
@@ -44,10 +49,7 @@ int read(int fd, char * buffer, size_t count){
         while(k < count ){
             _hlt();
             key = readKey();
-            if(key == '=') {
-                takeSnapshot();
-            }
-                buffer[k++] = key;
+            buffer[k++] = key;
         }
         return k;
     }
@@ -66,30 +68,20 @@ char mydate(char value){
     return rtcGet(value);
 }
 
-static char snapshot = 0;
 
-static const char* registerNames[17] = {
-    "RIP", "RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8 ", "R9 ", "R10", "R11", "R12", "R13", "R14", "R15"
-};
 
-static const uint64_t regsiterValues[17] = {0};
 void inforegs(){
-    if(!snapshot){
-        write(2,"Primero debe tomar un snapshot con la tecla =",46);
+    if(!registersSaved){
+        write(2,"Primero debe tomar un snapshot con la tecla ctrl",49);
         ncNewline();
     }else{
         for(int i = 0;i<17;i++){
             write(4,registerNames[i],3);
             write(1,": ",2);
-            ncPrintBase(regsiterValues[i],16);
+            ncPrintBase(registers[i],16);
             ncNewline();
         }
     }
-}
-
-void takeSnapshot(){
-    saveRegisters(regsiterValues);
-    snapshot = 1;
 }
 
 uint64_t xtou64(const char *str)

@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <syscalls.h>
-
+#include <lib.h>
 #define ZERO_EXCEPTION_ID 0
 #define INVALID_OPCODE_EXCEPTION_ID 6
 
@@ -15,13 +15,12 @@ void exceptionDispatcher(int exception) {
 }
 
 static void zero_division() {
-	takeSnapshot();
+	// saveRegisters();
 	write(1, "Err: You may not divide by zero.\n", 33);
 	inforegs();
 }
 
 static void invalid_opcode() {
-	takeSnapshot();
 	write(1, "Err: Invalid Opcode\n", 20);
 	inforegs();
 }
