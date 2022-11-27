@@ -29,6 +29,7 @@ EXTERN takeSnapshot
 EXTERN inforegs
 GLOBAL registersSaved
 GLOBAL registers
+GLOBAL registersException
 ; EXTERN saveBackup
 ; EXTERN ncPrintReg
 ; EXTERN rebootTerm
@@ -100,7 +101,7 @@ SECTION .text
 
 %macro exceptionHandler 1
     pushState
-	saveRegisters
+	saveRegistersException
     mov rdi, %1 ; pasaje de parametro
     call exceptionDispatcher
 
@@ -201,6 +202,36 @@ _sti:
     sti
 %endmacro
 
+%macro saveRegistersException 0
+	cli
+    mov [registersException+1*8], rax
+    mov [registersException+2*8], rbx
+    mov [registersException+3*8], rcx
+    mov [registersException+4*8], rdx
+    mov [registersException+5*8], rsi
+    mov [registersException+6*8], rdi
+    mov [registersException+7*8], rbp
+
+    ; rsp
+    mov rax, rsp
+    add rax, 120
+    mov [registersException+8*8], rax
+
+    mov [registersException+9*8], r8
+    mov [registersException+10*8], r9
+    mov [registersException+11*8], r10
+    mov [registersException+12*8], r11
+    mov [registersException+13*8], r12
+    mov [registersException+14*8], r13
+    mov [registersException+15*8], r14
+    mov [registersException+16*8], r15
+
+    ; rip
+    mov rax, [rsp+15*8]
+    mov [registersException], rax
+    sti
+%endmacro
+
 picMasterMask:
 	push rbp
     mov rbp, rsp
@@ -278,3 +309,4 @@ SECTION .bss
     registersSaved resb 1
     aux resq 1
     registers resq 17
+	registersException resq 17

@@ -8,6 +8,7 @@ static int var2 = 0;
 
 
 int main() {
+	clear();
 	printf("Welcome to capOs. Run HELP command to see the available programs!\n");
 	shell();
 	//Test if BSS is properly set up
